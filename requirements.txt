@@ -1,0 +1,12 @@
+# 학습/데이터 준비용 (Colab 에는 torch, torchvision, sklearn, matplotlib 가 기본 설치되어 있음)
+torch
+torchvision
+mediapipe
+datasets
+opencv-python-headless
+pillow
+numpy
+scikit-learn
+matplotlib
+onnx
+onnxruntime

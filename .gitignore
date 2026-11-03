@@ -1,0 +1,6 @@
+data/
+results/
+*.task
+__pycache__/
+.DS_Store
+web/js/config.local.js

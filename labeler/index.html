@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>동물상 라벨링 도구</title>
+<style>
+  :root { --bg:#f6f7f9; --card:#fff; --ink:#1d2330; --muted:#6b7280; --accent:#4f46e5; --done:#16a34a; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif; background:var(--bg); color:var(--ink); }
+  header { padding:12px 20px; background:var(--card); border-bottom:1px solid #e5e7eb; display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+  header h1 { font-size:18px; margin:0 12px 0 0; }
+  input, button { font:inherit; }
+  input[type=text] { padding:6px 10px; border:1px solid #d1d5db; border-radius:8px; }
+  button { padding:7px 12px; border:1px solid #d1d5db; background:#fff; border-radius:8px; cursor:pointer; }
+  button.primary { background:var(--accent); color:#fff; border-color:var(--accent); }
+  main { display:grid; grid-template-columns: minmax(0,1fr) 340px; gap:16px; padding:16px 20px; max-width:1200px; margin:auto; }
+  @media (max-width: 860px){ main { grid-template-columns:1fr; } }
+  .card { background:var(--card); border-radius:14px; padding:16px; box-shadow:0 1px 3px rgba(0,0,0,.06); }
+  #viewer { display:flex; flex-direction:column; align-items:center; gap:12px; }
+  #img { width:min(420px,100%); aspect-ratio:1; object-fit:cover; border-radius:12px; background:#e5e7eb; }
+  #status { color:var(--muted); font-size:14px; }
+  #current { font-size:20px; font-weight:700; min-height:28px; }
+  .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; width:min(420px,100%); }
+  .grid button { padding:10px 4px; }
+  .grid button.sel { background:var(--accent); color:#fff; border-color:var(--accent); }
+  .bar { height:8px; background:#e5e7eb; border-radius:4px; width:min(420px,100%); overflow:hidden; }
+  .bar > div { height:100%; background:var(--done); width:0; }
+  .guide dt { font-weight:700; margin-top:8px; }
+  .guide dd { margin:2px 0 0; color:var(--muted); font-size:14px; }
+  kbd { background:#eef; border-radius:4px; padding:0 5px; font-size:12px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>동물상 라벨링</h1>
+  <label>이름 <input id="labeler" type="text" placeholder="예: 주환" size="8"></label>
+  <label><button onclick="document.getElementById('folder').click()">이미지 폴더 선택</button>
+    <input id="folder" type="file" webkitdirectory multiple accept="image/*" hidden></label>
+  <button id="jump">안 한 곳으로 이동</button>
+  <button class="primary" id="export">CSV 내보내기</button>
+</header>
+<main>
+  <section class="card" id="viewer">
+    <div id="status">이름을 입력하고 이미지 폴더(pilot 또는 main)를 선택하세요.</div>
+    <img id="img" alt="">
+    <div id="current"></div>
+    <div class="grid" id="buttons"></div>
+    <button id="skip">0 · 판단 불가 (얼굴 아님/가려짐)</button>
+    <div class="bar"><div id="progress"></div></div>
+    <div id="status2" style="font-size:13px;color:var(--muted)">
+      <kbd>1</kbd>~<kbd>9</kbd> 선택 후 자동 다음 · <kbd>0</kbd> 판단 불가 · <kbd>←</kbd>/<kbd>→</kbd> 이동 · 진행 상황은 브라우저에 자동 저장
+    </div>
+  </section>
+  <aside class="card guide">
+    <h3 style="margin-top:0">판단 기준표 (팀에서 수정해서 쓰세요)</h3>
+    <p style="font-size:13px;color:var(--muted)">가장 먼저 떠오르는 하나만 고르세요. 오래 고민하지 말고 3~4초 안에 결정합니다.</p>
+    <dl id="guide"></dl>
+  </aside>
+</main>
+<script>
+// 순서 = 모델 출력 인덱스. training/common.py 와 동일하게 유지할 것
+const CLASSES = [
+  ["dog","강아지상","🐶","둥글고 처진 눈꼬리, 순하고 부드러운 인상"],
+  ["cat","고양이상","🐱","올라간 눈꼬리, 날렵한 턱선, 도도한 인상"],
+  ["rabbit","토끼상","🐰","동그랗고 큰 눈, 도드라진 앞니/입매, 생기 있는 인상"],
+  ["fox","여우상","🦊","가늘고 긴 눈, 갸름한 얼굴, 세련되고 여유 있는 인상"],
+  ["bear","곰상","🐻","둥글고 넓은 얼굴, 두툼한 이목구비, 푸근한 인상"],
+  ["deer","사슴상","🦌","크고 맑은 눈, 길고 갸름한 얼굴, 청순한 인상"],
+  ["dino","공룡상","🦖","큰 이목구비, 길거나 각진 얼굴, 선 굵고 개성 있는 인상"],
+  ["wolf","늑대상","🐺","날카로운 눈매, 진한 눈썹, 각진 턱, 강한 인상"],
+  ["squirrel","다람쥐상","🐿️","작고 동그란 얼굴, 통통한 볼, 작은 이목구비, 귀여운 인상"],
+];
+let files = [], idx = 0, labels = {};
+const $ = id => document.getElementById(id);
+const key = () => "labels:" + ($("labeler").value.trim() || "anon");
+
+function load() { try { labels = JSON.parse(localStorage.getItem(key()) || "{}"); } catch { labels = {}; } }
+function save() { try { localStorage.setItem(key(), JSON.stringify(labels)); } catch {} }
+
+CLASSES.forEach(([id, ko, emo, desc], i) => {
+  const b = document.createElement("button");
+  b.textContent = `${i + 1} · ${emo} ${ko}`;
+  b.onclick = () => setLabel(id);
+  $("buttons").appendChild(b);
+  $("guide").insertAdjacentHTML("beforeend", `<dt>${i + 1}. ${emo} ${ko}</dt><dd>${desc}</dd>`);
+});
+
+function render() {
+  if (!files.length) return;
+  const f = files[idx];
+  $("img").src = URL.createObjectURL(f);
+  const lab = labels[f.name];
+  const c = CLASSES.find(c => c[0] === lab);
+  $("current").textContent = lab ? (c ? `${c[2]} ${c[1]}` : "판단 불가") : "";
+  [...$("buttons").children].forEach((b, i) => b.classList.toggle("sel", CLASSES[i][0] === lab));
+  const done = files.filter(f => labels[f.name]).length;
+  $("status").textContent = `${idx + 1} / ${files.length}  ·  ${f.name}  ·  완료 ${done}장`;
+  $("progress").style.width = (100 * done / files.length) + "%";
+}
+function setLabel(id) {
+  if (!files.length) return;
+  if (!$("labeler").value.trim()) { alert("이름을 먼저 입력하세요"); return; }
+  labels[files[idx].name] = id; save();
+  if (idx < files.length - 1) idx++;
+  render();
+}
+$("labeler").addEventListener("change", () => { load(); render(); });
+$("folder").addEventListener("change", e => {
+  files = [...e.target.files].filter(f => /\.(jpe?g|png)$/i.test(f.name)).sort((a, b) => a.name.localeCompare(b.name));
+  load(); idx = Math.max(0, files.findIndex(f => !labels[f.name])); render();
+});
+$("skip").onclick = () => setLabel("none");
+$("jump").onclick = () => { const i = files.findIndex(f => !labels[f.name]); if (i >= 0) { idx = i; render(); } };
+document.addEventListener("keydown", e => {
+  if (e.target.tagName === "INPUT") return;
+  if (e.key >= "1" && e.key <= "9") setLabel(CLASSES[+e.key - 1][0]);
+  else if (e.key === "0") setLabel("none");
+  else if (e.key === "ArrowLeft" && idx > 0) { idx--; render(); }
+  else if (e.key === "ArrowRight" && idx < files.length - 1) { idx++; render(); }
+});
+$("export").onclick = () => {
+  const name = $("labeler").value.trim();
+  if (!name) { alert("이름을 먼저 입력하세요"); return; }
+  const rows = [["image", "labeler", "label"], ...Object.entries(labels).map(([img, l]) => [img, name, l])];
+  const blob = new Blob(["﻿" + rows.map(r => r.join(",")).join("\n")], { type: "text/csv" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = `labels_${name}.csv`; a.click();
+};
+</script>
+</body>
+</html>
