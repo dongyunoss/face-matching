@@ -10,6 +10,8 @@ export const CLASSES = [
   { id: "dino",     ko: "공룡상",   emoji: "🦖", desc: "선이 굵고 큰 이목구비. 개성 있고 시원한 인상이에요." },
   { id: "wolf",     ko: "늑대상",   emoji: "🐺", desc: "날카로운 눈매와 진한 눈썹. 강하고 카리스마 있는 인상이에요." },
   { id: "squirrel", ko: "다람쥐상", emoji: "🐿️", desc: "작고 동그란 얼굴과 통통한 볼. 앙증맞고 귀여운 인상이에요." },
+  { id: "horse",    ko: "말상",     emoji: "🐴", desc: "길고 갸름한 얼굴과 시원한 이목구비. 훤칠하고 시원시원한 인상이에요." },
+  { id: "mouse",    ko: "쥐상",     emoji: "🐭", desc: "작고 갸름한 얼굴에 작은 눈과 오밀조밀한 이목구비. 영리하고 재치 있는 인상이에요." },
 ];
 
 // 얼굴 크롭·정규화 (training/common.py 와 동일)
