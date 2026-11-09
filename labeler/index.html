@@ -46,10 +46,10 @@
     <img id="img" alt="">
     <div id="current"></div>
     <div class="grid" id="buttons"></div>
-    <button id="skip">0 · 판단 불가 (얼굴 아님/가려짐)</button>
+    <button id="skip">X · 판단 불가 (얼굴 아님/가려짐)</button>
     <div class="bar"><div id="progress"></div></div>
     <div id="status2" style="font-size:13px;color:var(--muted)">
-      <kbd>1</kbd>~<kbd>9</kbd> 선택 후 자동 다음 · <kbd>0</kbd> 판단 불가 · <kbd>←</kbd>/<kbd>→</kbd> 이동 · 진행 상황은 브라우저에 자동 저장
+      <kbd>1</kbd>~<kbd>9</kbd>, <kbd>0</kbd>, <kbd>-</kbd> 선택 후 자동 다음 · <kbd>X</kbd> 판단 불가 · <kbd>←</kbd>/<kbd>→</kbd> 이동 · 진행 상황은 브라우저에 자동 저장
     </div>
   </section>
   <aside class="card guide">
@@ -60,6 +60,8 @@
 </main>
 <script>
 // 순서 = 모델 출력 인덱스. training/common.py 와 동일하게 유지할 것
+// 단축키: 1~9 = 1~9번째, 0 = 10번째(말상), - = 11번째(쥐상), X = 판단 불가
+const KEYS = ["1","2","3","4","5","6","7","8","9","0","-"];
 const CLASSES = [
   ["dog","강아지상","🐶","둥글고 처진 눈꼬리, 순하고 부드러운 인상"],
   ["cat","고양이상","🐱","올라간 눈꼬리, 날렵한 턱선, 도도한 인상"],
@@ -70,6 +72,8 @@ const CLASSES = [
   ["dino","공룡상","🦖","큰 이목구비, 길거나 각진 얼굴, 선 굵고 개성 있는 인상"],
   ["wolf","늑대상","🐺","날카로운 눈매, 진한 눈썹, 각진 턱, 강한 인상"],
   ["squirrel","다람쥐상","🐿️","작고 동그란 얼굴, 통통한 볼, 작은 이목구비, 귀여운 인상"],
+  ["horse","말상","🐴","길고 갸름한 얼굴, 긴 코와 인중, 시원한 이목구비"],
+  ["mouse","쥐상","🐭","작고 갸름한 얼굴, 작은 눈, 오밀조밀한 이목구비, 영리한 인상"],
 ];
 let files = [], idx = 0, labels = {};
 const $ = id => document.getElementById(id);
@@ -80,10 +84,10 @@ function save() { try { localStorage.setItem(key(), JSON.stringify(labels)); } c
 
 CLASSES.forEach(([id, ko, emo, desc], i) => {
   const b = document.createElement("button");
-  b.textContent = `${i + 1} · ${emo} ${ko}`;
+  b.textContent = `${KEYS[i]} · ${emo} ${ko}`;
   b.onclick = () => setLabel(id);
   $("buttons").appendChild(b);
-  $("guide").insertAdjacentHTML("beforeend", `<dt>${i + 1}. ${emo} ${ko}</dt><dd>${desc}</dd>`);
+  $("guide").insertAdjacentHTML("beforeend", `<dt>[${KEYS[i]}] ${emo} ${ko}</dt><dd>${desc}</dd>`);
 });
 
 function render() {
@@ -114,8 +118,9 @@ $("skip").onclick = () => setLabel("none");
 $("jump").onclick = () => { const i = files.findIndex(f => !labels[f.name]); if (i >= 0) { idx = i; render(); } };
 document.addEventListener("keydown", e => {
   if (e.target.tagName === "INPUT") return;
-  if (e.key >= "1" && e.key <= "9") setLabel(CLASSES[+e.key - 1][0]);
-  else if (e.key === "0") setLabel("none");
+  const k = KEYS.indexOf(e.key);
+  if (k >= 0) setLabel(CLASSES[k][0]);
+  else if (e.key === "x" || e.key === "X") setLabel("none");
   else if (e.key === "ArrowLeft" && idx > 0) { idx--; render(); }
   else if (e.key === "ArrowRight" && idx < files.length - 1) { idx++; render(); }
 });
