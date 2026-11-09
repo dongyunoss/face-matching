@@ -39,7 +39,7 @@ export function detectAndCrop(source, outCanvas) {
   return drawAlignedFace(source, pts, outCanvas);
 }
 
-/** 224x224 얼굴 canvas -> 클래스별 확률 배열 (길이 9) */
+/** 224x224 얼굴 canvas -> 클래스별 확률 배열 (길이 = 클래스 수) */
 export async function classify(faceCanvas) {
   const { data } = faceCanvas.getContext("2d", { willReadFrequently: true }).getImageData(0, 0, IMG_SIZE, IMG_SIZE);
   const n = IMG_SIZE * IMG_SIZE;
