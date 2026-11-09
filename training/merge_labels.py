@@ -4,7 +4,7 @@
     python training/merge_labels.py --data-dir data            # data/labels/*.csv 를 모두 읽음
     python training/merge_labels.py --data-dir data --pilot-only   # 파일럿 결과만 분석
 
-출력: <data-dir>/soft_labels.csv  (image, p_dog ... p_squirrel, n_votes, hard)
+출력: <data-dir>/soft_labels.csv  (image, p_dog ... p_mouse, n_votes, hard)
 """
 import argparse
 import csv
