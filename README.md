@@ -46,6 +46,7 @@ face-matching/
 | 배포 | **Render Static Site** (잠들지 않음, HTTPS 자동 → 카메라 사용 가능) |
 | 회원 / DB | **Supabase** (무료 Postgres + 로그인) |
 
+- **notebooks/colab_pipeline.ipynb 사용**: vs코드처럼 로컬에서 돌리지 말고 코랩에서 사본 만들어 돌리기; 로컬에선 용량이 너무 큼
 - **라벨링 도구**: 별도 설치 없이 `labeler/index.html`을 더블클릭하면 바로 열려요.
 - **웹**: 빌드 도구 없이 CDN으로 라이브러리를 불러와요. `npm install`도 빌드도 필요 없어요.
 - **코드 저장소**: https://github.com/jhnxk/face-matching
@@ -66,7 +67,7 @@ face-matching/
 
 ### 1일차: 저장소·환경 세팅 + 데이터 준비 + 기준표
 
-**① GitHub 저장소·환경 세팅 (팀장)**
+**① GitHub 저장소·환경 세팅**
 1. 이 폴더를 VS Code로 열어요.
 2. GitHub에 `face-matching` 저장소를 만들고 push해요.
    ```bash
@@ -91,12 +92,12 @@ face-matching/
    - 런타임이 끊기면 변수와 위치가 초기화되므로 **①드라이브 연결 셀 → ②git clone 셀**부터 다시 실행해요.
 4. 크롭 결과 미리보기 셀로 얼굴이 제대로 잘렸는지 확인해요.
 
-**③ 기준표 작성 (전원)**
+**③ 기준표 작성**
 - 팀 회의에서 `labeler/index.html` 오른쪽의 **판단 기준표**(10종 설명)를 함께 다듬어요(파일 안의 `CLASSES` 배열).
 
 ### 2일차: 파일럿 라벨링 → 기준표 보완 → 본 라벨링 시작
 
-**① 라벨러 배정 (팀장)**
+**① 라벨러 배정**
 1. Colab에서 `make_assignments.py`를 실행해요(팀원 이름은 노트북에서 수정).
    - 결과는 `data/labeling/<이름>/pilot`과 `.../main` 폴더로 나뉘어요.
    - 파일럿 50장은 5명 모두가 라벨링해요.
@@ -104,7 +105,7 @@ face-matching/
    - 1인당 **파일럿 50장 + 본 라벨링 870장 = 920장**(약 1시간)이에요.
 2. 드라이브 `data/` 안에 결과를 받을 `labels_result/` 폴더를 만들고, `labeling/`과 함께 팀원에게 공유해요.
 
-**② 파일럿 라벨링 50장 (전원)**
+**② 파일럿 라벨링 50장**
 1. 각자 드라이브에서 자기 폴더를 내려받아요.
 2. `labeler/index.html`을 Chrome으로 열어요.
 3. 이름을 **배정 때와 똑같이**(주환 / 정원 / 정유 / 동윤 / 채하) 입력하고 **pilot 폴더**를 선택해요.
@@ -116,8 +117,8 @@ face-matching/
    - 팀원끼리 상의하지 않고 각자 3~4초 안에 판단해요.
 5. **CSV 내보내기**로 받은 `labels_이름.csv`를 드라이브의 `data/labels_result/`에 올려요.
 
-**③ 기준표 보완 (전원)**
-1. 팀장이 파일럿 결과를 분석해요.
+**③ 기준표 보완**
+1. 파일럿 결과를 분석해요.
    ```python
    !python training/merge_labels.py --data-dir $DATA --labels-glob "$DATA/labels_result/*.csv" --pilot-only
    ```
@@ -125,12 +126,12 @@ face-matching/
    - kappa 0.2~0.4: "약한 일치". 주관적인 과제라 정상 범위예요.
    - 0.2 미만이면 기준표를 더 구체적으로 다듬어요.
 
-**④ 본 라벨링 시작 (전원)**
+**④ 본 라벨링 시작**
 - 같은 라벨링 페이지에서 이름은 그대로 두고 **main 폴더**(870장)를 선택해 라벨링을 시작해요.
 
 ### 3일차: 본 라벨링 마무리 → soft label 합치기 + 데이터 분리
 1. 각자 **main 폴더 라벨링을 마무리**하고, 다시 CSV를 내보내 `labels_result/`의 기존 파일에 덮어써요(파일럿 + 본 라벨링이 한 파일에 들어 있음).
-2. 전원의 CSV가 모이면 팀장이 `merge_labels.py`를 실행해요.
+2. 전원의 CSV가 모이면 `merge_labels.py`를 실행해요.
    ```python
    !python training/merge_labels.py --data-dir $DATA --labels-glob "$DATA/labels_result/*.csv"
    ```
