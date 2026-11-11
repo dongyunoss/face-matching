@@ -256,17 +256,7 @@ textarea { resize: none; min-height: 130px; line-height: 1.5; }
 .strip-item .av { width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; font-size: 34px;
   border: 3px solid transparent; background-origin: border-box; }
 .strip-item.matched .av { box-shadow: 0 0 0 3px var(--surface), 0 0 0 5px var(--accent); }
-.list-title { font-size: 16px; padding: 14px 18px 8px; }
-.rank-list { list-style: none; margin: 0; padding: 0 14px; display: grid; gap: 8px; }
-.rank-item { display: grid; grid-template-columns: 22px 52px 1fr auto; gap: 10px; align-items: center; padding: 10px 12px;
   border-radius: 16px; background: var(--chip); cursor: pointer; }
-.rank-item .no { font-weight: 800; color: var(--accent); text-align: center; }
-.rank-item .av { width: 52px; height: 52px; border-radius: 16px; display: grid; place-items: center; font-size: 28px; }
-.rank-item .name { font-weight: 700; }
-.rank-item .meta { font-size: 12px; color: var(--muted); }
-.rank-item .pts { font-weight: 800; color: var(--accent); font-size: 18px; text-align: right; }
-.rank-item .state { font-size: 11px; color: var(--muted); display: block; font-weight: 600; }
-.formula { padding: 14px 18px 20px; margin: 0; }
 
 /* 프로필 탭 */
 .me-card { margin: 0 14px; border-radius: 24px; overflow: hidden; background: var(--chip); }

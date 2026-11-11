@@ -495,7 +495,6 @@ const isMutual = m => state.mode === "demo" && (m.fitBA >= 0.35 || m.total >= 0.
 
 $("btn-like").addEventListener("click", () => decide("like"));
 $("btn-pass").addEventListener("click", () => decide("pass"));
-$("btn-info").addEventListener("click", () => { const m = state.matches[state.deckIndex]; if (m) showDetail(m); });
 $("btn-replay").addEventListener("click", () => { state.deckIndex = 0; renderDeck(); });
 $("btn-goto-matches").addEventListener("click", () => switchTab("tab-matches"));
 document.addEventListener("keydown", e => {
@@ -556,7 +555,6 @@ function switchTab(id) {
 }
 document.querySelectorAll(".tabbar button").forEach(b => b.addEventListener("click", () => switchTab(b.dataset.tab)));
 
-const STATE_LABEL = { match: "💘 매칭 성공", like: "💌 좋아요 보냄", pass: "넘김" };
 function renderMatchesTab() {
   const liked = state.matches.filter(m => ["like", "match"].includes(state.decisions[m.candidate.id]));
   $("match-strip").innerHTML = liked.length
@@ -566,19 +564,6 @@ function renderMatchesTab() {
       }).join("")
     : `<div class="empty">아직 좋아요를 누른 상대가 없어요. 추천 탭에서 오른쪽으로 넘겨 보세요 →</div>`;
   if (liked.some(m => state.decisions[m.candidate.id] === "match") && $("tab-matches").hidden) $("match-dot").hidden = false;
-
-  $("rank-list").innerHTML = state.matches.length
-    ? state.matches.map((m, i) => {
-        const c = m.candidate, t = typeOf(c);
-        return `<li class="rank-item" data-id="${esc(c.id)}">
-          <span class="no">${i + 1}</span>
-          <span class="av g-${t.id}">${t.emoji}</span>
-          <div><div class="name">${esc(c.nickname)} <span class="muted small">${c.age}세</span></div>
-            <div class="meta">${t.ko}${c.mbti ? " · " + esc(c.mbti) : ""} · 내 이상형 ${pct(m.fitAB)}% · 상대 이상형 ${pct(m.fitBA)}%</div></div>
-          <div class="pts">${pct(m.total)}<span class="state">${STATE_LABEL[state.decisions[c.id]] ?? ""}</span></div>
-        </li>`;
-      }).join("")
-    : `<li class="muted small">조건(성별·나이)에 맞는 상대가 없어요.</li>`;
 }
 const openById = e => {
   const id = e.target.closest("[data-id]")?.dataset.id;
@@ -586,7 +571,6 @@ const openById = e => {
   if (m) showDetail(m);
 };
 $("match-strip").addEventListener("click", openById);
-$("rank-list").addEventListener("click", openById);
 
 function renderProfileTab() {
   const m = state.me, t = typeOf(m);
