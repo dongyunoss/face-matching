@@ -6,8 +6,12 @@ const MP_BASE = `https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@${MEDIAPIP
 let landmarker = null;
 let session = null;
 export let mockModel = false;   // 모델 파일이 없을 때 임시 결과로 UI 개발을 계속할 수 있게 함
+// 체험 모드: 외부 다운로드가 막힌 미리보기 페이지용. index.html 에서 window.PREVIEW_MODE = true 로 켠다.
+// 얼굴 검출 없이 사진 가운데를 잘라 임시 결과를 만든다 (재촬영 판정도 하지 않음).
+export const PREVIEW_MODE = Boolean(globalThis.PREVIEW_MODE);
 
 export async function initVision(onStatus = () => {}) {
+  if (PREVIEW_MODE) { mockModel = true; return { mockModel }; }
   onStatus("얼굴 검출기 불러오는 중…");
   const { FaceLandmarker, FilesetResolver } = await import(`${MP_BASE}/+esm`);
   const fileset = await FilesetResolver.forVisionTasks(`${MP_BASE}/wasm`);
@@ -36,6 +40,13 @@ export async function initVision(onStatus = () => {}) {
 export function detectAndCrop(source, outCanvas) {
   const w = source.naturalWidth || source.videoWidth || source.width;
   const h = source.naturalHeight || source.videoHeight || source.height;
+  if (PREVIEW_MODE) {                      // 가운데 정사각형 크롭
+    const side = Math.min(w, h);
+    outCanvas.width = outCanvas.height = IMG_SIZE;
+    outCanvas.getContext("2d", { willReadFrequently: true })
+      .drawImage(source, (w - side) / 2, (h - side) / 2, side, side, 0, 0, IMG_SIZE, IMG_SIZE);
+    return { face: outCanvas, issue: null };
+  }
   const res = landmarker.detect(source);
   const faces = res.faceLandmarks || [];
   if (faces.length === 0) return { face: null, issue: "얼굴이 보이지 않아요. 얼굴이 화면 가운데 오도록 해 주세요." };

@@ -3,7 +3,7 @@ import { CLASSES, HOBBIES, MBTI_TYPES, REGIONS } from "./config.js";
 import { DEMO_CANDIDATES } from "./candidates.js";
 import * as db from "./db.js";
 import { argmax, bioTags, interestTags, prefVector, reasons, topN } from "./matching.js";
-import { classify, confidenceIssue, detectAndCrop, initVision } from "./vision.js";
+import { PREVIEW_MODE, classify, confidenceIssue, detectAndCrop, initVision } from "./vision.js";
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]));
@@ -76,7 +76,8 @@ $("consent").addEventListener("change", e => {
   if (ok && !state.visionReady) {
     state.visionReady = initVision(msg => status(msg))
       .then(({ mockModel }) => {
-        if (mockModel) banner("⚠️ 모델 학습 중 · 지금은 임시(가짜) 동물상 결과가 나와요");
+        if (PREVIEW_MODE) banner("🧪 체험판 · 얼굴 검출·AI 모델 없이 임시 동물상 결과가 나와요");
+        else if (mockModel) banner("⚠️ 모델 학습 중 · 지금은 임시(가짜) 동물상 결과가 나와요");
       })
       .catch(err => {
         console.error(err);
@@ -91,7 +92,7 @@ let stream = null;
 function stopCamera() {
   if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
   $("video").hidden = true; $("face-guide").hidden = true; $("btn-shot").hidden = true;
-  $("btn-camera").hidden = false;
+  $("btn-camera").hidden = PREVIEW_MODE;
 }
 
 $("btn-camera").addEventListener("click", async () => {
@@ -587,8 +588,14 @@ document.querySelectorAll("[data-edit]").forEach(b => b.addEventListener("click"
   state.editing = true;
   go(b.dataset.edit, { push: false });
 }));
+let resetArmed = false;
 $("btn-reset").addEventListener("click", () => {
-  if (!confirm("저장된 내 프로필과 좋아요 기록을 지울까요?")) return;
+  if (!resetArmed) {                       // confirm() 대신 한 번 더 눌러 확인
+    resetArmed = true;
+    $("btn-reset").textContent = "⚠️ 한 번 더 누르면 내 정보가 지워져요";
+    setTimeout(() => { resetArmed = false; $("btn-reset").textContent = "🗑️ 내 정보 지우고 처음부터"; }, 4000);
+    return;
+  }
   try { localStorage.removeItem(STORE_KEY); } catch { /* 무시 */ }
   location.reload();
 });
@@ -627,6 +634,10 @@ $("auth-form").addEventListener("submit", async e => {
 });
 
 // ───────── 초기화 ─────────
+if (PREVIEW_MODE) {                        // 체험판: 카메라 없이 사진 올리기만
+  $("btn-camera").hidden = true;
+  $("cam-placeholder").lastElementChild.textContent = "사진을 올려 주세요 (체험판은 카메라를 쓰지 않아요)";
+}
 (async () => {
   if (restore()) {
     $("btn-resume").hidden = false;
