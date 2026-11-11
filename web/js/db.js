@@ -44,12 +44,14 @@ export async function signOut() {
 const toRow = (p, uid) => ({
   id: uid, nickname: p.nickname, gender: p.gender, age: p.age, seek: p.seek,
   age_min: p.ageMin, age_max: p.ageMax, hobbies: p.hobbies,
-  face_vec: p.face, pref_vec: p.pref, face_type: p.faceType, updated_at: new Date().toISOString(),
+  face_vec: p.face, pref_vec: p.pref, face_type: p.faceType,
+  mbti: p.mbti || null, pref_mbti: p.prefMbti ?? [], bio: p.bio ?? "", region: p.region || null, updated_at: new Date().toISOString(),
 });
 const fromRow = r => ({
   id: r.id, nickname: r.nickname, gender: r.gender, age: r.age, seek: r.seek,
   ageMin: r.age_min, ageMax: r.age_max, hobbies: r.hobbies ?? [],
   face: r.face_vec, pref: r.pref_vec, faceType: r.face_type,
+  mbti: r.mbti, prefMbti: r.pref_mbti ?? [], bio: r.bio ?? "", region: r.region,
 });
 
 export async function saveProfile(profile) {

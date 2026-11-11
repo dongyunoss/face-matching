@@ -2,113 +2,308 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ff5a7a">
   <title>동물상 소개팅</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
   <link rel="stylesheet" href="css/style.css">
   <!-- ONNX Runtime Web: 브라우저에서 얼굴상 분류 모델 실행 -->
   <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.20.1/dist/ort.min.js"></script>
   <script type="module" src="js/app.js"></script>
 </head>
 <body>
-  <header class="topbar">
-    <div class="brand">🐾 동물상 소개팅</div>
-    <div id="auth-area"></div>
-  </header>
-
+<div class="app" id="app">
   <div id="banner" class="banner" hidden></div>
 
-  <main class="wrap">
-    <!-- 1. 얼굴 분석 -->
-    <section class="card" id="step-face">
-      <h2><span class="num">1</span> 내 얼굴상 알아보기</h2>
+  <!-- ───────── 0. 시작 화면 ───────── -->
+  <section class="screen welcome" id="s-welcome">
+    <div class="welcome-top">
+      <div class="floating" aria-hidden="true">
+        <span>🐶</span><span>🐱</span><span>🦊</span><span>🐰</span><span>🐻</span>
+        <span>🦌</span><span>🦖</span><span>🐺</span><span>🐿️</span><span>🐴</span>
+      </div>
+      <div class="logo">🐾</div>
+      <h1>동물상 소개팅</h1>
+      <p class="lead">얼굴로 찾는 내 동물상,<br>서로의 이상형이 맞는 사람만 골라 드려요.</p>
+    </div>
+    <ul class="feature-list">
+      <li><b>📸 AI 동물상 분석</b><span>10가지 동물상 중 나는 어떤 상일까?</span></li>
+      <li><b>💞 상호 매칭</b><span>내 취향 + 상대 취향을 함께 계산해요</span></li>
+      <li><b>🔒 사진은 내 폰에만</b><span>분석은 브라우저 안에서, 서버 전송 없음</span></li>
+    </ul>
+    <div class="welcome-actions">
+      <button class="btn primary big" id="btn-start">시작하기</button>
+      <button class="btn ghost" id="btn-resume" hidden>저장된 프로필로 이어하기</button>
+      <div id="auth-area" class="auth-area"></div>
+    </div>
+  </section>
+
+  <!-- ───────── 1. 사진 → 동물상 ───────── -->
+  <section class="screen" id="s-photo" hidden>
+    <header class="step-head">
+      <button class="icon-btn" data-back aria-label="뒤로">‹</button>
+      <div class="progress"><i style="width:25%"></i></div>
+      <span class="step-no">1/4</span>
+    </header>
+    <div class="step-body">
+      <h2>내 동물상 찾기</h2>
+      <p class="sub">정면 얼굴이 잘 보이게 찍어 주세요. 한 명만, 밝은 곳에서!</p>
+
+      <div class="cam-stage" id="cam-stage">
+        <video id="video" playsinline muted hidden></video>
+        <canvas id="face" class="face-canvas" width="224" height="224" hidden></canvas>
+        <div class="cam-placeholder" id="cam-placeholder">
+          <div class="cam-emoji">🙂</div>
+          <div>카메라를 켜거나 사진을 올려 주세요</div>
+        </div>
+        <div class="face-guide" id="face-guide" hidden></div>
+        <div class="scan" id="scan" hidden></div>
+      </div>
+      <canvas id="frame" hidden></canvas>
+
+      <div id="vision-status" class="status"></div>
+
       <label class="consent">
         <input type="checkbox" id="consent">
-        사진은 내 브라우저 안에서만 분석되고 어디에도 전송·저장되지 않는 것에 동의합니다.
+        <span>사진은 내 브라우저 안에서만 분석되고 어디에도 전송·저장되지 않는 것에 동의합니다.</span>
       </label>
-      <div class="row">
-        <button id="btn-camera" class="primary" disabled>📷 카메라 켜기</button>
+
+      <div class="btn-row" id="photo-actions">
+        <button class="btn primary" id="btn-camera" disabled>📷 카메라 켜기</button>
+        <button class="btn primary" id="btn-shot" hidden>촬영하기</button>
         <label class="btn" id="lbl-upload" aria-disabled="true">🖼️ 사진 올리기
           <input type="file" id="file" accept="image/*" hidden disabled>
         </label>
       </div>
-      <div id="vision-status" class="muted"></div>
-      <div class="camera" id="camera-box" hidden>
-        <video id="video" playsinline muted></video>
-        <button id="btn-shot" class="primary">촬영하기</button>
-      </div>
-      <canvas id="frame" hidden></canvas>
-      <div id="face-result" class="result" hidden>
-        <canvas id="face" class="face-thumb" width="224" height="224"></canvas>
-        <div>
-          <div class="muted">당신은</div>
-          <div class="type" id="type-name"></div>
-          <p id="type-desc"></p>
-          <details>
-            <summary>분석 상세 (개발용)</summary>
-            <ul id="prob-list" class="probs"></ul>
-          </details>
-        </div>
-      </div>
-    </section>
 
-    <!-- 2. 프로필 & 이상형 -->
-    <section class="card" id="step-profile" hidden>
-      <h2><span class="num">2</span> 프로필 &amp; 이상형</h2>
-      <form id="profile-form" class="form">
-        <label>닉네임 <input name="nickname" maxlength="20" required placeholder="예: 주말캠핑러"></label>
-        <div class="field">
-          <span>성별</span>
-          <label class="radio"><input type="radio" name="gender" value="M" required> 남</label>
-          <label class="radio"><input type="radio" name="gender" value="F"> 여</label>
-        </div>
-        <label>나이 <input name="age" type="number" min="19" max="99" required value="23"></label>
-        <label>찾는 상대
-          <select name="seek">
-            <option value="F">여성</option><option value="M">남성</option><option value="any">상관없음</option>
-          </select>
-        </label>
-        <div class="field">
-          <span>선호 나이</span>
-          <input name="ageMin" type="number" min="19" max="99" value="20" class="short"> ~
-          <input name="ageMax" type="number" min="19" max="99" value="30" class="short">
-        </div>
-        <div class="field col">
-          <span>취미 (여러 개 선택)</span>
-          <div id="hobby-chips" class="chips"></div>
-        </div>
-        <div class="field col">
-          <span>이상형 동물상 (누른 순서대로 1·2·3순위, 최대 3개)</span>
-          <div id="pref-chips" class="chips"></div>
-        </div>
-        <div class="row">
-          <button type="submit" class="primary" data-mode="demo">💘 데모 후보에서 찾기</button>
-          <button type="submit" data-mode="real" id="btn-real" hidden>💾 저장하고 실제 회원 중에서 찾기</button>
-        </div>
-        <div id="form-msg" class="muted"></div>
-      </form>
-    </section>
-
-    <!-- 3. 추천 결과 -->
-    <section class="card" id="step-match" hidden>
-      <h2><span class="num">3</span> 추천 상대 Top 5 <small id="match-source" class="muted"></small></h2>
-      <ol id="match-list" class="matches"></ol>
-      <p class="muted small">점수 = 0.8 × 상호 취향 점수(내 이상형 적합도와 상대 이상형 적합도의 평균) + 0.2 × 취미 겹침</p>
-    </section>
-  </main>
-
-  <!-- 로그인 / 회원가입 -->
-  <dialog id="auth-dialog">
-    <form id="auth-form" method="dialog" class="form">
-      <h3>로그인 / 회원가입</h3>
-      <label>이메일 <input name="email" type="email" required autocomplete="email"></label>
-      <label>비밀번호 (6자 이상) <input name="password" type="password" minlength="6" required autocomplete="current-password"></label>
-      <div class="row">
-        <button value="signin" class="primary">로그인</button>
-        <button value="signup">회원가입</button>
-        <button value="cancel" formnovalidate>닫기</button>
+      <div class="reveal" id="face-result" hidden>
+        <div class="reveal-emoji" id="type-emoji"></div>
+        <div class="muted small">AI가 분석한 당신은</div>
+        <div class="reveal-name" id="type-name"></div>
+        <p id="type-desc" class="reveal-desc"></p>
+        <details class="probs-box">
+          <summary>분석 상세 보기</summary>
+          <ul id="prob-list" class="probs"></ul>
+        </details>
       </div>
-      <div id="auth-msg" class="muted"></div>
+    </div>
+    <footer class="step-foot">
+      <button class="btn primary big" id="btn-photo-next" disabled>다음</button>
+    </footer>
+  </section>
+
+  <!-- ───────── 2. 기본 정보 ───────── -->
+  <section class="screen" id="s-basic" hidden>
+    <header class="step-head">
+      <button class="icon-btn" data-back aria-label="뒤로">‹</button>
+      <div class="progress"><i style="width:50%"></i></div>
+      <span class="step-no">2/4</span>
+    </header>
+    <form class="step-body form" id="basic-form" novalidate>
+      <h2>기본 정보</h2>
+      <p class="sub">상대에게 보여질 정보예요.</p>
+      <label class="field">닉네임
+        <input name="nickname" maxlength="12" required placeholder="예: 주말캠핑러" autocomplete="off">
+      </label>
+      <div class="field">성별
+        <div class="seg">
+          <label><input type="radio" name="gender" value="M" required><span>남자</span></label>
+          <label><input type="radio" name="gender" value="F"><span>여자</span></label>
+        </div>
+      </div>
+      <div class="field-row">
+        <label class="field">나이 <input name="age" type="number" min="19" max="99" required value="25" inputmode="numeric"></label>
+        <label class="field">지역 <select name="region" id="region-select"></select></label>
+      </div>
+      <div class="field">만나고 싶은 상대
+        <div class="seg">
+          <label><input type="radio" name="seek" value="F"><span>여자</span></label>
+          <label><input type="radio" name="seek" value="M"><span>남자</span></label>
+          <label><input type="radio" name="seek" value="any"><span>상관없음</span></label>
+        </div>
+      </div>
+      <div class="field">선호 나이
+        <div class="range-row">
+          <input name="ageMin" type="number" min="19" max="99" value="20" inputmode="numeric">
+          <span>~</span>
+          <input name="ageMax" type="number" min="19" max="99" value="32" inputmode="numeric">
+          <span class="muted">세</span>
+        </div>
+      </div>
+      <div class="form-msg" id="basic-msg"></div>
     </form>
-  </dialog>
+    <footer class="step-foot">
+      <button class="btn primary big" id="btn-basic-next">다음</button>
+    </footer>
+  </section>
+
+  <!-- ───────── 3. 이상형 & MBTI ───────── -->
+  <section class="screen" id="s-pref" hidden>
+    <header class="step-head">
+      <button class="icon-btn" data-back aria-label="뒤로">‹</button>
+      <div class="progress"><i style="width:75%"></i></div>
+      <span class="step-no">3/4</span>
+    </header>
+    <div class="step-body">
+      <h2>이상형 동물상</h2>
+      <p class="sub">누른 순서대로 1·2·3순위가 돼요. (최대 3개)</p>
+      <div class="animal-grid" id="pref-grid"></div>
+
+      <h2 class="mt">내 MBTI</h2>
+      <div class="mbti-picker" id="mbti-picker"></div>
+      <label class="check-inline"><input type="checkbox" id="mbti-unknown"> 잘 몰라요</label>
+
+      <h2 class="mt">선호하는 MBTI <small class="muted">(선택, 최대 3개)</small></h2>
+      <p class="sub">고르지 않으면 AI가 기본 궁합표로 계산해요.</p>
+      <div class="chips mbti-chips" id="pref-mbti"></div>
+      <div class="form-msg" id="pref-msg"></div>
+    </div>
+    <footer class="step-foot">
+      <button class="btn primary big" id="btn-pref-next">다음</button>
+    </footer>
+  </section>
+
+  <!-- ───────── 4. 자기소개 & 관심사 ───────── -->
+  <section class="screen" id="s-bio" hidden>
+    <header class="step-head">
+      <button class="icon-btn" data-back aria-label="뒤로">‹</button>
+      <div class="progress"><i style="width:100%"></i></div>
+      <span class="step-no">4/4</span>
+    </header>
+    <div class="step-body">
+      <h2>자기소개</h2>
+      <p class="sub">취미, 주말 루틴, 원하는 연애 스타일을 편하게 적어 주세요.</p>
+      <div class="textarea-wrap">
+        <textarea id="bio" maxlength="300" rows="5" placeholder="예: 주말엔 카페 투어하고, 가끔 캠핑도 가요. 넷플 보면서 집에서 쉬는 것도 좋아해요. 연락 자주 하는 편!"></textarea>
+        <span class="counter" id="bio-count">0/300</span>
+      </div>
+      <div class="ai-tags">
+        <span class="ai-badge">AI</span>
+        <span id="bio-tags" class="muted small">자기소개에서 관심사를 찾아 드려요</span>
+      </div>
+
+      <h2 class="mt">관심사 <small class="muted">(여러 개)</small></h2>
+      <div class="chips" id="hobby-chips"></div>
+      <div class="form-msg" id="bio-msg"></div>
+    </div>
+    <footer class="step-foot">
+      <button class="btn primary big" id="btn-find" data-mode="demo">💘 AI 매칭 시작</button>
+      <button class="btn big" id="btn-find-real" data-mode="real" hidden>💾 저장하고 실제 회원 중에서 찾기</button>
+    </footer>
+  </section>
+
+  <!-- ───────── 매칭 분석 중 ───────── -->
+  <section class="screen loading" id="s-loading" hidden>
+    <div class="pulse">
+      <div class="pulse-ring"></div><div class="pulse-ring d2"></div>
+      <div class="pulse-core" id="loading-emoji">🐾</div>
+    </div>
+    <h2 id="loading-title">AI가 상대를 찾고 있어요</h2>
+    <ul class="loading-steps" id="loading-steps">
+      <li>동물상 확률 벡터 비교 중</li>
+      <li>서로의 이상형 적합도 계산 중</li>
+      <li>MBTI 궁합 확인 중</li>
+      <li>자기소개 관심사 분석 중</li>
+    </ul>
+  </section>
+
+  <!-- ───────── 메인 앱 ───────── -->
+  <section class="screen main" id="s-app" hidden>
+    <header class="app-head">
+      <div class="brand">🐾 동물상 소개팅</div>
+      <div class="muted small" id="match-source"></div>
+    </header>
+
+    <!-- 추천 탭 -->
+    <div class="tab" id="tab-discover">
+      <div class="deck" id="deck"></div>
+      <div class="deck-empty" id="deck-empty" hidden>
+        <div class="big-emoji">🌙</div>
+        <h3>오늘의 추천 Top 5를 다 봤어요</h3>
+        <p class="muted">좋아요 누른 상대는 매칭 탭에서 확인할 수 있어요.</p>
+        <div class="btn-row center">
+          <button class="btn" id="btn-replay">다시 보기</button>
+          <button class="btn primary" id="btn-goto-matches">매칭 보러 가기</button>
+        </div>
+      </div>
+      <div class="deck-actions" id="deck-actions">
+        <button class="round pass" id="btn-pass" aria-label="넘기기">✕</button>
+        <button class="round info" id="btn-info" aria-label="자세히">ⓘ</button>
+        <button class="round like" id="btn-like" aria-label="좋아요">♥</button>
+      </div>
+    </div>
+
+    <!-- 매칭 탭 -->
+    <div class="tab" id="tab-matches" hidden>
+      <h2 class="tab-title">매칭</h2>
+      <div id="match-strip" class="match-strip"></div>
+      <h3 class="list-title">추천 순위 Top 5</h3>
+      <ol id="rank-list" class="rank-list"></ol>
+      <p class="muted small formula">점수 = 0.6 × 동물상 상호 적합도 + 0.2 × MBTI 궁합 + 0.2 × 관심사 겹침</p>
+    </div>
+
+    <!-- 프로필 탭 -->
+    <div class="tab" id="tab-profile" hidden>
+      <h2 class="tab-title">내 프로필</h2>
+      <div class="me-card" id="me-card"></div>
+      <div class="menu">
+        <button class="menu-item" data-edit="s-photo">📸 사진 다시 분석하기</button>
+        <button class="menu-item" data-edit="s-basic">✏️ 기본 정보 수정</button>
+        <button class="menu-item" data-edit="s-pref">💘 이상형 · MBTI 수정</button>
+        <button class="menu-item" data-edit="s-bio">📝 자기소개 수정</button>
+        <button class="menu-item danger" id="btn-reset">🗑️ 내 정보 지우고 처음부터</button>
+      </div>
+      <div id="auth-area-2" class="auth-area"></div>
+    </div>
+
+    <nav class="tabbar">
+      <button class="on" data-tab="tab-discover"><span>🔥</span>추천</button>
+      <button data-tab="tab-matches"><span>💬</span>매칭<i class="dot" id="match-dot" hidden></i></button>
+      <button data-tab="tab-profile"><span>👤</span>프로필</button>
+    </nav>
+  </section>
+</div>
+
+<!-- 매칭 성공 -->
+<dialog id="match-dialog" class="match-dialog">
+  <div class="its-match">
+    <div class="sparkles">💖</div>
+    <h2>It's a Match!</h2>
+    <p id="match-text"></p>
+    <div class="pair">
+      <div class="pair-avatar" id="pair-me"></div>
+      <div class="pair-heart">💘</div>
+      <div class="pair-avatar" id="pair-them"></div>
+    </div>
+    <div class="icebreaker">
+      <div class="ai-tags"><span class="ai-badge">AI</span><b>추천 첫 마디</b></div>
+      <p id="icebreaker-text"></p>
+    </div>
+    <form method="dialog" class="btn-col">
+      <button class="btn primary big" value="ok">계속 둘러보기</button>
+    </form>
+  </div>
+</dialog>
+
+<!-- 상세 보기 -->
+<dialog id="detail-dialog" class="sheet">
+  <form method="dialog"><button class="icon-btn close" aria-label="닫기">✕</button></form>
+  <div id="detail-body"></div>
+</dialog>
+
+<!-- 로그인 / 회원가입 -->
+<dialog id="auth-dialog" class="sheet">
+  <form id="auth-form" method="dialog" class="form">
+    <h3>로그인 / 회원가입</h3>
+    <label class="field">이메일 <input name="email" type="email" required autocomplete="email"></label>
+    <label class="field">비밀번호 (6자 이상) <input name="password" type="password" minlength="6" required autocomplete="current-password"></label>
+    <div class="btn-row">
+      <button value="signin" class="btn primary">로그인</button>
+      <button value="signup" class="btn">회원가입</button>
+      <button value="cancel" class="btn ghost" formnovalidate>닫기</button>
+    </div>
+    <div id="auth-msg" class="form-msg"></div>
+  </form>
+</dialog>
 </body>
 </html>

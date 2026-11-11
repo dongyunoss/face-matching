@@ -13,8 +13,18 @@ create table if not exists public.profiles (
   face_vec    float8[] not null check (array_length(face_vec, 1) = 10),
   pref_vec    float8[] not null check (array_length(pref_vec, 1) = 10),
   face_type   text not null,
+  mbti        text check (mbti ~ '^[EI][SN][TF][JP]$'),
+  pref_mbti   text[] not null default '{}',
+  bio         text not null default '' check (char_length(bio) <= 300),
+  region      text,
   updated_at  timestamptz not null default now()
 );
+
+-- 이미 테이블을 만든 경우: 새 컬럼(MBTI·자기소개·지역)만 추가
+alter table public.profiles add column if not exists mbti text check (mbti ~ '^[EI][SN][TF][JP]$');
+alter table public.profiles add column if not exists pref_mbti text[] not null default '{}';
+alter table public.profiles add column if not exists bio text not null default '' check (char_length(bio) <= 300);
+alter table public.profiles add column if not exists region text;
 
 alter table public.profiles enable row level security;
 
