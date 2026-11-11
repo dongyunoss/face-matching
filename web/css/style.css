@@ -24,6 +24,8 @@ button, .btn { font: inherit; padding: 9px 14px; border-radius: 10px; border: 1p
   background: var(--card); color: var(--ink); cursor: pointer; display: inline-block; }
 button.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
 button:disabled, .btn[aria-disabled="true"] { opacity: .45; cursor: not-allowed; }
+#vision-status.retake { background: #fff1f2; color: #b4232f; border: 1px solid #fecdd3; border-radius: 10px;
+  padding: 10px 12px; margin-top: 8px; font-size: 14px; }
 .consent { display: flex; gap: 8px; font-size: 14px; align-items: flex-start; }
 .camera { display: grid; gap: 8px; justify-items: center; margin-top: 8px; }
 .camera video { width: 100%; max-width: 420px; border-radius: 12px; background: #000; transform: scaleX(-1); }

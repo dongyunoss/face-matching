@@ -3,7 +3,7 @@ import { CLASSES, HOBBIES } from "./config.js";
 import { DEMO_CANDIDATES } from "./candidates.js";
 import * as db from "./db.js";
 import { argmax, prefVector, topN } from "./matching.js";
-import { classify, detectAndCrop, initVision } from "./vision.js";
+import { classify, confidenceIssue, detectAndCrop, initVision } from "./vision.js";
 
 const $ = id => document.getElementById(id);
 const state = { face: null, faceType: null, hobbies: new Set(), prefRank: [], user: null, visionReady: null };
@@ -11,6 +11,10 @@ const state = { face: null, faceType: null, hobbies: new Set(), prefRank: [], us
 // ───────── 공통 UI ─────────
 function banner(msg) { $("banner").hidden = !msg; $("banner").textContent = msg || ""; }
 function show(id) { $(id).hidden = false; }
+function status(msg, retake = false) {
+  $("vision-status").textContent = msg;
+  $("vision-status").classList.toggle("retake", retake);
+}
 
 // ───────── 1. 얼굴 분석 ─────────
 $("consent").addEventListener("change", e => {
@@ -69,18 +73,24 @@ $("file").addEventListener("change", e => {
 
 async function analyze(frameCanvas) {
   try {
-    $("vision-status").textContent = "분석 중…";
+    status("분석 중…");
     await state.visionReady;
-    const face = detectAndCrop(frameCanvas, $("face"));
-    if (!face) {
-      $("vision-status").textContent = "얼굴을 찾지 못했어요. 정면을 보고 밝은 곳에서 다시 시도해 주세요.";
+    const retakeTitle = stream ? "📷 다시 촬영해 주세요" : "🖼️ 다른 사진을 올려 주세요";
+    const { face, issue } = detectAndCrop(frameCanvas, $("face"));
+    if (issue) {                       // 구분이 불가능한 사진 -> 결과 대신 재촬영 요청
+      status(`${retakeTitle} · ${issue}`, true);
       return;
     }
     const probs = await classify(face);
+    const lowConf = confidenceIssue(probs);
+    if (lowConf) {
+      status(`${retakeTitle} · ${lowConf}`, true);
+      return;
+    }
     state.face = probs;
     state.faceType = CLASSES[argmax(probs)].id;
     renderFaceResult(probs);
-    $("vision-status").textContent = "";
+    status("");
     if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; $("camera-box").hidden = true; }
     show("step-profile");
   } catch (err) {

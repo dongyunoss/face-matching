@@ -10,6 +10,7 @@ export const CLASSES = [
   { id: "dino",     ko: "공룡상",   emoji: "🦖", desc: "선이 굵고 큰 이목구비. 개성 있고 시원한 인상이에요." },
   { id: "wolf",     ko: "늑대상",   emoji: "🐺", desc: "날카로운 눈매와 진한 눈썹. 강하고 카리스마 있는 인상이에요." },
   { id: "squirrel", ko: "다람쥐상", emoji: "🐿️", desc: "작고 동그란 얼굴과 통통한 볼. 앙증맞고 귀여운 인상이에요." },
+  { id: "horse",    ko: "말상",     emoji: "🐴", desc: "길고 갸름한 얼굴과 시원한 이목구비. 훤칠하고 시원시원한 인상이에요." },
 ];
 
 // 얼굴 크롭·정규화 (training/common.py 와 동일)
@@ -22,6 +23,17 @@ export const MODEL_URL = "./model/face_type.onnx";
 export const MEDIAPIPE_VERSION = "0.10.14";
 export const LANDMARKER_MODEL_URL =
   "https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task";
+
+// 재촬영 판정 기준 (구분이 불가능한 사진이면 결과 대신 재촬영 메시지를 띄움)
+// 실제 카메라로 테스트하면서 값을 조정하세요.
+export const QUALITY = {
+  minFaceRatio: 0.2,    // 얼굴 너비 / 사진 짧은 변. 이보다 작으면 "더 가까이"
+  maxYaw: 0.3,          // 좌우로 고개 돌린 정도(0 = 정면). 이보다 크면 "정면을 봐 주세요"
+  minBrightness: 60,    // 얼굴 평균 밝기(0~255). 이보다 어두우면 "더 밝은 곳에서"
+  maxBrightness: 220,   // 이보다 밝으면 "빛이 너무 강해요"
+  minSharpness: 15,     // 선명도(라플라시안 분산). 이보다 낮으면 "흔들렸어요"
+  minConfidence: 0.2,   // 모델의 최고 확률. 이보다 낮으면 "얼굴상을 구분하기 어려워요"
+};
 
 // 매칭 점수 가중치 (합 = 1)
 export const MATCH_WEIGHTS = { mutual: 0.8, hobby: 0.2 };

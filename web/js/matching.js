@@ -12,7 +12,7 @@ export const dot = (a, b) => a.reduce((s, x, i) => s + x * b[i], 0);
 export const argmax = v => v.reduce((bi, x, i) => (x > v[bi] ? i : bi), 0);
 
 /** 이상형 순위(클래스 인덱스 배열, 최대 3개) -> 확률 벡터 */
-export function prefVector(rankedIdx, numClasses = 9) {
+export function prefVector(rankedIdx, numClasses = 10) {
   const v = new Array(numClasses).fill(0);
   const ws = PREF_RANK_WEIGHTS.slice(0, rankedIdx.length);
   const total = ws.reduce((a, b) => a + b, 0);

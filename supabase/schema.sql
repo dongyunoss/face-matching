@@ -10,8 +10,8 @@ create table if not exists public.profiles (
   age_min     int  not null check (age_min >= 19),
   age_max     int  not null check (age_max >= age_min),
   hobbies     text[] not null default '{}',
-  face_vec    float8[] not null check (array_length(face_vec, 1) = 9),
-  pref_vec    float8[] not null check (array_length(pref_vec, 1) = 9),
+  face_vec    float8[] not null check (array_length(face_vec, 1) = 10),
+  pref_vec    float8[] not null check (array_length(pref_vec, 1) = 10),
   face_type   text not null,
   updated_at  timestamptz not null default now()
 );
