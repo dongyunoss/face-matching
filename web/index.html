@@ -65,7 +65,7 @@
 
       <label class="consent">
         <input type="checkbox" id="consent">
-        <span>사진은 내 브라우저 안에서만 분석되고 어디에도 전송·저장되지 않는 것에 동의합니다.</span>
+        <span>사진은 내 브라우저 안에서만 분석되고 어디에도 전송·저장되지 않는 것을 확인했습니다.</span>
       </label>
 
       <div class="btn-row" id="photo-actions">
@@ -122,13 +122,15 @@
           <label><input type="radio" name="seek" value="any"><span>상관없음</span></label>
         </div>
       </div>
-      <div class="field">선호 나이
-        <div class="range-row">
-          <input name="ageMin" type="number" min="19" max="99" value="20" inputmode="numeric">
-          <span>~</span>
-          <input name="ageMax" type="number" min="19" max="99" value="32" inputmode="numeric">
-          <span class="muted">세</span>
+      <div class="field">
+        <span>선호 나이 <b class="age-label" id="age-label"></b></span>
+        <div class="dual" id="age-dual">
+          <div class="track"><i id="age-fill"></i></div>
+          <input type="range" id="age-min-range" min="19" max="99" value="20" aria-label="선호 최소 나이">
+          <input type="range" id="age-max-range" min="19" max="99" value="32" aria-label="선호 최대 나이">
         </div>
+        <input type="hidden" name="ageMin" value="20">
+        <input type="hidden" name="ageMax" value="32">
       </div>
       <div class="form-msg" id="basic-msg"></div>
     </form>

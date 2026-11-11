@@ -12,7 +12,7 @@ from common import CLASSES, NUM_CLASSES, PROJECT_ROOT
 HOBBIES = ["운동", "여행", "맛집", "카페", "영화", "음악", "게임", "독서", "사진", "요리", "반려동물", "등산"]
 MBTI = ["ISTJ", "ISFJ", "INFJ", "INTJ", "ISTP", "ISFP", "INFP", "INTP",
         "ESTP", "ESFP", "ENFP", "ENTP", "ESTJ", "ESFJ", "ENFJ", "ENTJ"]
-REGIONS = ["서울 강남", "서울 마포", "서울 성수", "서울 종로", "서울 송파", "경기 성남", "경기 수원", "인천", "대전", "부산"]
+REGIONS = ["서울", "경기", "인천", "부산", "대구", "광주", "대전", "울산", "세종", "강원", "충북", "충남", "전북", "전남", "경북", "경남", "제주"]  # 전국 17개 시·도
 # 자기소개 문장 조각. web/js/config.js 의 INTEREST_KEYWORDS 에 있는 단어를 쓴다.
 HOBBY_LINE = {
     "운동": "퇴근하고 헬스 가는 게 루틴이에요.", "여행": "한 달에 한 번은 여행 가려고 해요.",
@@ -54,7 +54,7 @@ def main(n=40, seed=7):
             age=age, seek="F" if gender == "M" else "M", ageMin=max(19, age - r.randint(3, 6)),
             ageMax=age + r.randint(3, 6), hobbies=hobbies,
             face=[round(float(x), 4) for x in face], pref=pref, faceType=CLASSES[int(face.argmax())],
-            mbti=mbti, prefMbti=pref_mbti, bio=bio, region=r2.choice(REGIONS),
+            mbti=mbti, prefMbti=pref_mbti, bio=bio, region=REGIONS[i % len(REGIONS)],   # 40명을 17개 시·도에 고르게 배정
         ))
     path = PROJECT_ROOT / "web" / "js" / "candidates.js"
     path.write_text("// 자동 생성 파일 (training/make_demo_candidates.py). 가상의 데모 후보이며 실존 인물이 아님.\n"

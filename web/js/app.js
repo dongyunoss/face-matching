@@ -193,10 +193,30 @@ basicForm.addEventListener("change", e => {
 });
 function fillBasic() {
   const m = state.me, f = basicForm.elements;
-  f.nickname.value = m.nickname; f.age.value = m.age; f.region.value = m.region; f.ageMin.value = m.ageMin; f.ageMax.value = m.ageMax;
+  f.nickname.value = m.nickname; f.age.value = m.age; f.region.value = m.region;
+  $("age-min-range").value = m.ageMin; $("age-max-range").value = m.ageMax;
+  syncAge();
   basicForm.querySelectorAll("input[name=gender]").forEach(r => (r.checked = r.value === m.gender));
   basicForm.querySelectorAll("input[name=seek]").forEach(r => (r.checked = r.value === m.seek));
 }
+// 선호 나이 듀얼 슬라이더: 두 손잡이를 같은 값으로 맞춰 주고, 숨은 입력(ageMin/ageMax)과 라벨, 막대 위치를 갱신
+const AGE_MIN = 19, AGE_MAX = 99;
+function syncAge(src) {
+  const minR = $("age-min-range"), maxR = $("age-max-range");
+  let a = Number(minR.value), b = Number(maxR.value);
+  if (a > b) {                              // 손잡이가 서로 넘어가면 밀어낸다
+    if (src === minR) { maxR.value = a; b = a; } else { minR.value = b; a = b; }
+  }
+  basicForm.elements.ageMin.value = a;
+  basicForm.elements.ageMax.value = b;
+  $("age-label").textContent = `${a} ~ ${b}세`;
+  $("age-fill").style.left = ((a - AGE_MIN) / (AGE_MAX - AGE_MIN) * 100) + "%";
+  $("age-fill").style.width = ((b - a) / (AGE_MAX - AGE_MIN) * 100) + "%";
+}
+$("age-min-range").addEventListener("input", e => syncAge(e.target));
+$("age-max-range").addEventListener("input", e => syncAge(e.target));
+syncAge();
+
 $("btn-basic-next").addEventListener("click", () => {
   const f = new FormData(basicForm);
   const v = {
