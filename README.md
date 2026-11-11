@@ -46,7 +46,7 @@ face-matching/
 | 배포 | **Render Static Site** (잠들지 않음, HTTPS 자동 → 카메라 사용 가능) |
 | 회원 / DB | **Supabase** (무료 Postgres + 로그인) |
 
-- **notebooks/colab_pipeline.ipynb 사용**: vs코드처럼 로컬에서 돌리지 말고 코랩에서 사본 만들어 돌리기; 로컬에선 용량이 너무 큼
+- **notebooks/colab_pipeline.ipynb 사용**: VS Code(로컬)에서 실행하지 말고, Google Colab에서 사본을 만들어 실행하기. 구글 드라이브 연결과 무료 GPU를 쓰기 때문에 로컬보다 빠르고 용량이 적음.
 - **라벨링 도구**: 별도 설치 없이 `labeler/index.html`을 더블클릭하면 바로 열려요.
 - **웹**: 빌드 도구 없이 CDN으로 라이브러리를 불러와요. `npm install`도 빌드도 필요 없어요.
 - **코드 저장소**: https://github.com/jhnxk/face-matching
