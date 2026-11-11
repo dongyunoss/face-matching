@@ -158,6 +158,10 @@
       <h2 class="mt">선호하는 MBTI <small class="muted">(선택, 최대 3개)</small></h2>
       <p class="sub">고르지 않으면 AI가 기본 궁합표로 계산해요.</p>
       <div class="chips mbti-chips" id="pref-mbti"></div>
+
+      <h2 class="mt">무엇이 중요해요?</h2>
+      <p class="sub">고른 비중대로 상대를 평가해요. 상대도 자기 기준으로 나를 평가하고, 두 점수가 모두 높아야 추천 순위가 올라가요.</p>
+      <div class="importance" id="importance"></div>
       <div class="form-msg" id="pref-msg"></div>
     </div>
     <footer class="step-foot">
@@ -202,10 +206,10 @@
     </div>
     <h2 id="loading-title">AI가 상대를 찾고 있어요</h2>
     <ul class="loading-steps" id="loading-steps">
-      <li>동물상 확률 벡터 비교 중</li>
-      <li>서로의 이상형 적합도 계산 중</li>
-      <li>MBTI 궁합 확인 중</li>
-      <li>자기소개 관심사 분석 중</li>
+      <li>성별·나이 조건이 서로 맞는 후보 찾는 중</li>
+      <li>내 기준으로 상대 만족도 계산 중</li>
+      <li>상대 기준으로 내 만족도 계산 중</li>
+      <li>서로 잘 맞는 순서로 정렬 중</li>
     </ul>
   </section>
 
@@ -224,7 +228,7 @@
         <h3>오늘의 추천 Top 5를 다 봤어요</h3>
         <p class="muted">좋아요 누른 상대는 매칭 탭에서 확인할 수 있어요.</p>
         <div class="btn-row center">
-          <button class="btn" id="btn-replay">다시 보기</button>
+          <button class="btn" id="btn-next-batch">다음 추천 받기</button>
           <button class="btn primary" id="btn-goto-matches">매칭 보러 가기</button>
         </div>
       </div>
@@ -237,6 +241,9 @@
     <!-- 매칭 탭 -->
     <div class="tab" id="tab-matches" hidden>
       <h2 class="tab-title">매칭</h2>
+      <h3 class="strip-title">💘 매칭 성공 <small class="muted">서로 좋아요를 눌렀어요</small></h3>
+      <div id="match-strip-matched" class="match-strip"></div>
+      <h3 class="strip-title">💌 보낸 좋아요 <small class="muted">상대의 답을 기다리는 중</small></h3>
       <div id="match-strip" class="match-strip"></div>
     </div>
 

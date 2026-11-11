@@ -193,8 +193,9 @@ textarea { resize: none; min-height: 130px; line-height: 1.5; }
 
 /* ───────── 메인 앱 ───────── */
 .main { overflow: hidden; }
-.app-head { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px 8px; }
-.brand { font-weight: 800; font-size: 19px; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.app-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 18px 8px; }
+#match-source { font-size: 12px; text-align: right; min-width: 0; }
+.brand { flex-shrink: 0; white-space: nowrap; font-weight: 800; font-size: 19px; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .tab { flex: 1; min-height: 0; display: flex; flex-direction: column; overflow-y: auto; }
 .tab-title { font-size: 24px; font-weight: 800; padding: 6px 18px 14px; }
 .tabbar { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); background: var(--surface);
@@ -250,7 +251,18 @@ textarea { resize: none; min-height: 130px; line-height: 1.5; }
 .big-emoji { font-size: 60px; }
 
 /* 매칭 탭 */
-.match-strip { display: flex; gap: 14px; overflow-x: auto; padding: 0 18px 8px; min-height: 96px; }
+.strip-title { font-size: 16px; padding: 6px 18px 8px; display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+.strip-title small { font-size: 12px; font-weight: 500; }
+.importance { display: grid; gap: 10px; }
+.imp-row { display: grid; gap: 6px; }
+.imp-row .imp-head { display: flex; justify-content: space-between; font-size: 14px; font-weight: 600; }
+.imp-row .imp-note { font-size: 12px; color: var(--muted); font-weight: 400; }
+.imp-seg { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; background: var(--chip); padding: 4px; border-radius: 12px; }
+.imp-seg button { font: inherit; font-size: 13px; font-weight: 600; border: none; background: none; color: var(--muted); padding: 8px 2px; border-radius: 9px; cursor: pointer; }
+.imp-seg button.on { background: var(--surface); color: var(--accent); box-shadow: 0 2px 8px rgba(0, 0, 0, .08); }
+.breakdown .sub-title { font-size: 12px; color: var(--muted); font-weight: 600; margin-top: 4px; }
+.breakdown .row.off { opacity: .45; }
+.match-strip { display: flex; gap: 14px; overflow-x: auto; padding: 6px 18px 10px; min-height: 96px; }
 .match-strip .empty { color: var(--muted); font-size: 14px; align-self: center; }
 .strip-item { display: grid; justify-items: center; gap: 4px; font-size: 12px; flex: 0 0 auto; cursor: pointer; background: none; border: none; color: var(--ink); font-family: inherit; }
 .strip-item .av { width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; font-size: 34px;

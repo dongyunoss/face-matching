@@ -1,8 +1,10 @@
 // 화면 흐름: 시작 → ①사진(동물상) → ②기본 정보 → ③이상형·MBTI → ④자기소개 → AI 매칭 → 추천 카드(스와이프)
-import { CLASSES, HOBBIES, MBTI_TYPES, REGIONS } from "./config.js";
+import {
+  CLASSES, DECK_SIZE, DEFAULT_IMPORTANCE, DEMO_LIKE_BACK, FACTORS, HOBBIES, IMPORTANCE_LEVELS, MBTI_TYPES, REGIONS,
+} from "./config.js";
 import { DEMO_CANDIDATES } from "./candidates.js";
 import * as db from "./db.js";
-import { argmax, bioTags, interestTags, prefVector, reasons, topN } from "./matching.js";
+import { argmax, bioTags, interestTags, learnedPref, matchScore, prefVector, reasons, recommend } from "./matching.js";
 import { PREVIEW_MODE, classify, confidenceIssue, detectAndCrop, initVision } from "./vision.js";
 
 const $ = id => document.getElementById(id);
@@ -15,8 +17,10 @@ const state = {
   me: {                       // 사진은 저장하지 않는다. 확률 벡터와 프로필만 보관.
     nickname: "", gender: null, age: 25, region: REGIONS[0], seek: null, ageMin: 20, ageMax: 32,
     hobbies: [], bio: "", mbti: null, prefMbti: [], prefRank: [], face: null, faceType: null,
+    importance: { ...DEFAULT_IMPORTANCE },
   },
   faceImg: null,              // 이번 세션에서만 쓰는 내 얼굴 썸네일 (저장 안 함)
+  pool: [],                   // 이번 매칭에 쓴 후보 전체 (데모 40명 또는 실제 회원)
   matches: [], deckIndex: 0, decisions: {}, source: "", mode: "demo",
   history: [], editing: false, user: null, visionReady: null,
 };
@@ -260,7 +264,19 @@ function renderPref() {
   $("mbti-picker").classList.toggle("disabled", $("mbti-unknown").checked);
 
   $("pref-mbti").innerHTML = MBTI_TYPES.map(t => `<button type="button" class="chip${m.prefMbti.includes(t) ? " on" : ""}" data-t="${t}">${t}</button>`).join("");
+
+  const note = { mbti: m.prefMbti.length ? "" : "선호 MBTI를 고르지 않으면 계산에서 빠져요", distance: "같은 시·도 > 같은 권역 > 그 외" };
+  $("importance").innerHTML = FACTORS.map(f => `<div class="imp-row">
+      <div class="imp-head"><span>${f.ko}</span><span class="imp-note">${note[f.id] ?? ""}</span></div>
+      <div class="imp-seg">${IMPORTANCE_LEVELS.map(l => `<button type="button" data-f="${f.id}" data-w="${l.w}" class="${m.importance[f.id] === l.w ? "on" : ""}">${l.ko}</button>`).join("")}</div>
+    </div>`).join("");
 }
+$("importance").addEventListener("click", e => {
+  const b = e.target.closest("button[data-f]");
+  if (!b) return;
+  state.me.importance[b.dataset.f] = Number(b.dataset.w);
+  renderPref();
+});
 $("mbti-picker").addEventListener("click", e => {
   const b = e.target.closest("button[data-ax]");
   if (!b) return;
@@ -326,9 +342,23 @@ $("btn-find").addEventListener("click", onFind);
 $("btn-find-real").addEventListener("click", onFind);
 
 // ───────── AI 매칭 ─────────
+const decidedIds = kinds => Object.keys(state.decisions).filter(id => kinds.includes(state.decisions[id]));
+const findCandidate = id => state.pool.find(c => c.id === id);
+/** 좋아요(매칭 포함)한 상대들의 얼굴 확률 벡터 -> 취향 학습에 사용 */
+const likedFaces = () => decidedIds(["like", "match"]).map(findCandidate).filter(Boolean).map(c => c.face);
+
+/** 매칭 계산용 내 프로필. 이상형 벡터는 고른 이상형 + 좋아요 기록으로 학습한 값 */
 function profileForMatch() {
   const m = state.me;
-  return { ...m, id: state.user?.id ?? "me", pref: prefVector(m.prefRank, CLASSES.length) };
+  return { ...m, id: state.user?.id ?? "me", pref: learnedPref(prefVector(m.prefRank, CLASSES.length), likedFaces()) };
+}
+
+/** 아직 좋아요/넘기기 하지 않은 후보 중 매칭 점수 상위 DECK_SIZE 명 */
+function nextBatch() {
+  state.matches = recommend(profileForMatch(), state.pool, DECK_SIZE, new Set(Object.keys(state.decisions)));
+  state.deckIndex = 0;
+  const n = likedFaces().length;
+  $("match-source").textContent = `${state.source}${n ? ` · 좋아요 ${n}개로 취향 학습` : ""}`;
 }
 
 async function runMatching(mode = "demo") {
@@ -337,13 +367,15 @@ async function runMatching(mode = "demo") {
   $("loading-emoji").textContent = typeOf(state.me).emoji;
   const steps = [...$("loading-steps").children];
   steps.forEach(li => li.classList.remove("on", "done"));
-  const me = profileForMatch();
   let pool, source;
   try {
     const work = (async () => {
       if (mode === "real") {
-        await db.saveProfile(me);
+        await db.saveProfile(profileForMatch());
         const p = await db.fetchOtherProfiles();
+        // 서버의 좋아요 기록으로 상태를 맞춘다: 내가 좋아요 + 상대도 나를 좋아요 = 매칭
+        const { liked, likedMe } = await db.fetchLikeState();
+        liked.forEach(id => { state.decisions[id] = likedMe.has(id) ? "match" : "like"; });
         return [p, `실제 회원 ${p.length}명 중`];
       }
       return [DEMO_CANDIDATES, `데모 후보 ${DEMO_CANDIDATES.length}명 중`];
@@ -357,10 +389,10 @@ async function runMatching(mode = "demo") {
     return;
   }
   state.mode = mode;
-  state.matches = topN(me, pool, 5);
-  state.deckIndex = 0;
+  state.pool = pool;
   state.source = source;
-  $("match-source").textContent = `${source} Top ${state.matches.length}`;
+  nextBatch();
+  persist();
   go("s-app", { push: false });
   switchTab("tab-discover");
   renderDeck();
@@ -378,7 +410,7 @@ function cardHTML(m, rank) {
   return `
     <div class="stamp like">LIKE</div><div class="stamp nope">NOPE</div>
     <div class="hero g-${t.id}">
-      <span class="rank-pill">추천 ${rank}위</span>
+      <span class="rank-pill">추천 ${rank}/${state.matches.length}</span>
       <div class="big">${t.emoji}</div>
       <div class="who"><b>${esc(c.nickname)}</b> <span>${c.age}</span><div>${esc(c.region ?? "")}${c.region ? " · " : ""}${t.ko}</div></div>
       <div class="score-ring" style="--p:${pct(m.total)}"><div>${pct(m.total)}<small>매칭점수</small></div></div>
@@ -399,12 +431,17 @@ function cardHTML(m, rank) {
 }
 
 function breakdownHTML(m) {
-  const row = (label, v) => `<div class="row"><span>${label}</span><span class="bar"><i style="width:${pct(v)}%"></i></span><span>${pct(v)}%</span></div>`;
+  const row = (label, v, off = false) => `<div class="row${off ? " off" : ""}"><span>${label}</span><span class="bar"><i style="width:${off ? 0 : pct(v)}%"></i></span><span>${off ? "-" : pct(v) + "%"}</span></div>`;
+  const imp = state.me.importance;
+  const lvl = w => IMPORTANCE_LEVELS.find(l => l.w === w)?.ko ?? "";
   return `<div class="breakdown">
-    ${row("내 이상형 적합", m.fitAB)}
-    ${row("상대 이상형 적합", m.fitBA)}
-    ${row("MBTI 궁합", m.mbti)}
-    ${row("관심사 겹침", m.interest)}
+    ${row("내 만족도", m.satAB)}
+    ${row("상대 만족도", m.satBA)}
+    <div class="sub-title">내 기준 항목별 점수 (중요도)</div>
+    ${FACTORS.map(f => {
+      const v = m.partsAB[f.id], off = v === null || !imp[f.id];
+      return row(`${f.ko.replace(/\(.*\)/, "")} <small class="muted">${lvl(imp[f.id])}</small>`, v ?? 0, off);
+    }).join("")}
   </div>`;
 }
 
@@ -416,13 +453,17 @@ function renderDeck() {
   $("deck-empty").hidden = !empty;
   $("deck-actions").hidden = empty;
   deck.hidden = empty;
+  const seenAny = Object.keys(state.decisions).length > 0;
+  $("btn-next-batch").hidden = state.matches.length === 0;
   if (state.matches.length === 0) {
-    $("deck-empty").querySelector("h3").textContent = "조건에 맞는 상대가 아직 없어요";
-    $("deck-empty").querySelector("p").textContent = "선호 나이나 상대 성별 조건을 넓혀 보세요.";
+    $("deck-empty").querySelector("h3").textContent = seenAny ? "추천할 상대를 모두 봤어요" : "조건에 맞는 상대가 아직 없어요";
+    $("deck-empty").querySelector("p").textContent = seenAny
+      ? "새 회원이 들어오면 다시 추천해 드려요. 선호 나이나 상대 성별을 넓혀 봐도 좋아요."
+      : "선호 나이나 상대 성별 조건을 넓혀 보세요.";
     return;
   }
-  $("deck-empty").querySelector("h3").textContent = `오늘의 추천 Top ${state.matches.length}을 다 봤어요`;
-  $("deck-empty").querySelector("p").textContent = "좋아요 누른 상대는 매칭 탭에서 확인할 수 있어요.";
+  $("deck-empty").querySelector("h3").textContent = `추천 ${state.matches.length}명을 다 봤어요`;
+  $("deck-empty").querySelector("p").textContent = "좋아요를 반영해 취향을 다시 계산한 다음 추천을 받을 수 있어요.";
   rest.slice().reverse().forEach((m, k) => {
     const depth = rest.length - 1 - k;              // 0 = 맨 위 카드
     const card = Object.assign(document.createElement("article"), { className: "card" });
@@ -477,7 +518,14 @@ async function decide(kind) {
   setDrag(card, kind === "like" ? 160 : -160);
   card.style.transform = `translateX(${kind === "like" ? 150 : -150}%) rotate(${kind === "like" ? 22 : -22}deg)`;
   card.style.opacity = "0";
-  const matched = kind === "like" && isMutual(m);
+  let matched = false;
+  if (kind === "like") {
+    if (state.mode === "demo") matched = m.satBA >= DEMO_LIKE_BACK;   // 데모: 상대의 가상 응답
+    else {
+      try { matched = await db.sendLike(m.candidate.id); }             // 실제: 서버에 좋아요 저장 후 상대의 좋아요 확인
+      catch (err) { console.error(err); toast("좋아요를 저장하지 못했어요: " + err.message); }
+    }
+  }
   state.decisions[m.candidate.id] = matched ? "match" : kind;
   persist();
   await sleep(260);
@@ -486,16 +534,12 @@ async function decide(kind) {
   renderMatchesTab();
   deciding = false;
   if (matched) showItsAMatch(m);
-  else if (kind === "like") toast(state.mode === "real" ? "좋아요를 보냈어요 💌" : "좋아요를 보냈어요 💌 상대의 답을 기다려요");
+  else if (kind === "like") toast("좋아요를 보냈어요 💌 상대도 좋아요를 누르면 매칭돼요");
 }
-
-// 데모: 내가 상대의 이상형에 어느 정도 가까우면(상대 이상형 적합 35% 이상) 상대도 좋아요를 눌렀다고 가정한다.
-// 실제 회원 모드에서는 상대의 실제 응답이 필요하므로 매칭 성사를 흉내 내지 않는다.
-const isMutual = m => state.mode === "demo" && (m.fitBA >= 0.35 || m.total >= 0.6);
 
 $("btn-like").addEventListener("click", () => decide("like"));
 $("btn-pass").addEventListener("click", () => decide("pass"));
-$("btn-replay").addEventListener("click", () => { state.deckIndex = 0; renderDeck(); });
+$("btn-next-batch").addEventListener("click", () => { nextBatch(); renderDeck(); });
 $("btn-goto-matches").addEventListener("click", () => switchTab("tab-matches"));
 document.addEventListener("keydown", e => {
   if (current !== "s-app" || $("tab-discover").hidden || document.querySelector("dialog[open]")) return;
@@ -543,7 +587,7 @@ function showDetail(m) {
       <ul>${reasons(profileForMatch(), m).map(r => `<li>${esc(r)}</li>`).join("")}</ul></div>
     ${breakdownHTML(m)}
     ${d === "match" ? `<div class="report"><div class="ai-tags" style="margin:0"><span class="ai-badge">AI</span><b>추천 첫 마디</b></div><div>${esc(icebreaker(m))}</div></div>` : ""}
-    <p class="muted small" style="margin:0">점수 = 0.6 × 동물상 상호 적합도 + 0.2 × MBTI 궁합 + 0.2 × 관심사 겹침</p>`;
+    <p class="muted small" style="margin:0">매칭 점수 = √(내 만족도 × 상대 만족도). 만족도는 각자 정한 중요도로 외모·성격·관심사·거리를 가중평균한 값이에요.</p>`;
   $("detail-dialog").showModal();
 }
 
@@ -556,21 +600,24 @@ function switchTab(id) {
 document.querySelectorAll(".tabbar button").forEach(b => b.addEventListener("click", () => switchTab(b.dataset.tab)));
 
 function renderMatchesTab() {
-  const liked = state.matches.filter(m => ["like", "match"].includes(state.decisions[m.candidate.id]));
-  $("match-strip").innerHTML = liked.length
-    ? liked.map(m => {
-        const t = typeOf(m.candidate), mt = state.decisions[m.candidate.id] === "match";
-        return `<button class="strip-item${mt ? " matched" : ""}" data-id="${esc(m.candidate.id)}"><span class="av g-${t.id}">${t.emoji}</span>${esc(m.candidate.nickname)}</button>`;
-      }).join("")
-    : `<div class="empty">아직 좋아요를 누른 상대가 없어요. 추천 탭에서 오른쪽으로 넘겨 보세요 →</div>`;
-  if (liked.some(m => state.decisions[m.candidate.id] === "match") && $("tab-matches").hidden) $("match-dot").hidden = false;
+  const item = (c, matched) => {
+    const t = typeOf(c);
+    return `<button class="strip-item${matched ? " matched" : ""}" data-id="${esc(c.id)}"><span class="av g-${t.id}">${t.emoji}</span>${esc(c.nickname)}</button>`;
+  };
+  const matched = decidedIds(["match"]).map(findCandidate).filter(Boolean);
+  const waiting = decidedIds(["like"]).map(findCandidate).filter(Boolean);
+  $("match-strip-matched").innerHTML = matched.length ? matched.map(c => item(c, true)).join("")
+    : `<div class="empty">아직 매칭된 상대가 없어요.</div>`;
+  $("match-strip").innerHTML = waiting.length ? waiting.map(c => item(c, false)).join("")
+    : `<div class="empty">추천 탭에서 오른쪽으로 넘기면 좋아요가 보내져요 →</div>`;
+  if (matched.length && $("tab-matches").hidden) $("match-dot").hidden = false;
 }
 const openById = e => {
-  const id = e.target.closest("[data-id]")?.dataset.id;
-  const m = state.matches.find(x => x.candidate.id === id);
-  if (m) showDetail(m);
+  const c = findCandidate(e.target.closest("[data-id]")?.dataset.id);
+  if (c) showDetail({ candidate: c, ...matchScore(profileForMatch(), c) });
 };
 $("match-strip").addEventListener("click", openById);
+$("match-strip-matched").addEventListener("click", openById);
 
 function renderProfileTab() {
   const m = state.me, t = typeOf(m);
@@ -586,6 +633,7 @@ function renderProfileTab() {
       <div><b>관심사</b><div class="badges" style="margin-top:4px">${interestTags(m).map(x => `<span class="badge">#${esc(x)}</span>`).join("") || '<span class="muted">-</span>'}</div></div>
       <div><b>이상형 동물상</b><div class="muted">${prefs}</div></div>
       <div><b>찾는 상대</b><div class="muted">${seek} · ${m.ageMin}~${m.ageMax}세${m.prefMbti.length ? " · 선호 MBTI " + m.prefMbti.join(", ") : ""}</div></div>
+      <div><b>중요도</b><div class="muted">${FACTORS.map(f => `${f.ko} ${IMPORTANCE_LEVELS.find(l => l.w === m.importance[f.id])?.ko ?? ""}`).join(" · ")}</div></div>
     </div>`;
 }
 document.querySelectorAll("[data-edit]").forEach(b => b.addEventListener("click", () => {

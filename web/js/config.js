@@ -35,13 +35,46 @@ export const QUALITY = {
   minConfidence: 0.2,   // 모델의 최고 확률. 이보다 낮으면 "얼굴상을 구분하기 어려워요"
 };
 
-// 매칭 점수 가중치 (합 = 1)
-//   face:     동물상 상호 점수 (내 이상형 ↔ 상대 얼굴, 상대 이상형 ↔ 내 얼굴)
-//   mbti:     MBTI 상호 궁합
-//   interest: 취미 + 자기소개에서 뽑은 관심사 겹침
-export const MATCH_WEIGHTS = { face: 0.6, mbti: 0.2, interest: 0.2 };
+// ───────── 추천 · 매칭 규칙 (자세한 정의는 README 의 "추천·매칭 시스템" 참고) ─────────
+// 만족도 항목. 각 사람이 항목별 중요도를 정하고, 그 가중치로 '내가 상대에게 얼마나 만족하는지'를 계산한다.
+export const FACTORS = [
+  { id: "face",     ko: "외모(동물상)" },
+  { id: "mbti",     ko: "성격(MBTI)" },
+  { id: "interest", ko: "관심사" },
+  { id: "distance", ko: "거리" },
+];
+// 중요도 단계 -> 가중치. '매우 중요'가 '조금'의 6배.
+export const IMPORTANCE_LEVELS = [
+  { w: 0, ko: "상관없음" },
+  { w: 1, ko: "조금" },
+  { w: 3, ko: "중요" },
+  { w: 6, ko: "매우 중요" },
+];
+export const DEFAULT_IMPORTANCE = { face: 3, mbti: 1, interest: 3, distance: 1 };
+
 // 이상형 1·2·3순위 가중치
 export const PREF_RANK_WEIGHTS = [0.5, 0.3, 0.2];
+
+// 거리 점수: 같은 시·도 1.0, 같은 권역 0.7, 그 외 0.3
+export const REGION_GROUPS = {
+  수도권: ["서울", "경기", "인천"],
+  강원: ["강원"],
+  충청: ["대전", "세종", "충북", "충남"],
+  호남: ["광주", "전북", "전남"],
+  영남: ["부산", "대구", "울산", "경북", "경남"],
+  제주: ["제주"],
+};
+export const DISTANCE_SCORE = { same: 1.0, group: 0.7, far: 0.3 };
+
+// 취향 학습: 좋아요 n개를 받으면 이상형 벡터 = (1-β)·고른 이상형 + β·좋아요한 얼굴 평균,  β = n / (n + LEARN_K)
+export const LEARN_K = 5;
+
+// 한 번에 보여 주는 추천 수
+export const DECK_SIZE = 5;
+
+// 데모 후보의 가상 응답: 상대가 나에게 느끼는 만족도 sat(상대→나)가 이 값 이상이면 상대도 좋아요를 눌렀다고 본다.
+// 시뮬레이션 기준 추천된 상대의 약 4명 중 1명이 이 조건을 넘는다.
+export const DEMO_LIKE_BACK = 0.45;
 
 export const MBTI_TYPES = [
   "ISTJ", "ISFJ", "INFJ", "INTJ", "ISTP", "ISFP", "INFP", "INTP",

@@ -35,6 +35,7 @@ def main(n=40, seed=7):
     rng = np.random.default_rng(seed)
     r = random.Random(seed)
     r2 = random.Random(seed + 1)   # MBTI·자기소개용 (기존 얼굴/이상형 값이 바뀌지 않도록 별도 시드)
+    r3 = random.Random(seed + 2)   # 항목별 중요도용
     out = []
     for i in range(n):
         gender = "M" if i % 2 == 0 else "F"
@@ -55,6 +56,9 @@ def main(n=40, seed=7):
             ageMax=age + r.randint(3, 6), hobbies=hobbies,
             face=[round(float(x), 4) for x in face], pref=pref, faceType=CLASSES[int(face.argmax())],
             mbti=mbti, prefMbti=pref_mbti, bio=bio, region=REGIONS[i % len(REGIONS)],   # 40명을 17개 시·도에 고르게 배정
+            # 항목별 중요도 가중치 (0 상관없음 / 1 조금 / 3 중요 / 6 매우 중요) — web/js/config.js 의 IMPORTANCE_LEVELS
+            importance=dict(face=r3.choice([1, 3, 3, 6]), mbti=r3.choice([0, 1, 1, 3]),
+                            interest=r3.choice([1, 3, 3, 6]), distance=r3.choice([0, 1, 1, 3])),
         ))
     path = PROJECT_ROOT / "web" / "js" / "candidates.js"
     path.write_text("// 자동 생성 파일 (training/make_demo_candidates.py). 가상의 데모 후보이며 실존 인물이 아님.\n"

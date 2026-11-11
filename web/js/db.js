@@ -45,13 +45,15 @@ const toRow = (p, uid) => ({
   id: uid, nickname: p.nickname, gender: p.gender, age: p.age, seek: p.seek,
   age_min: p.ageMin, age_max: p.ageMax, hobbies: p.hobbies,
   face_vec: p.face, pref_vec: p.pref, face_type: p.faceType,
-  mbti: p.mbti || null, pref_mbti: p.prefMbti ?? [], bio: p.bio ?? "", region: p.region || null, updated_at: new Date().toISOString(),
+  mbti: p.mbti || null, pref_mbti: p.prefMbti ?? [], bio: p.bio ?? "", region: p.region || null,
+  importance: p.importance ?? null, updated_at: new Date().toISOString(),
 });
 const fromRow = r => ({
   id: r.id, nickname: r.nickname, gender: r.gender, age: r.age, seek: r.seek,
   ageMin: r.age_min, ageMax: r.age_max, hobbies: r.hobbies ?? [],
   face: r.face_vec, pref: r.pref_vec, faceType: r.face_type,
   mbti: r.mbti, prefMbti: r.pref_mbti ?? [], bio: r.bio ?? "", region: r.region,
+  importance: r.importance ?? undefined,
 });
 
 export async function saveProfile(profile) {
@@ -76,4 +78,32 @@ export async function fetchOtherProfiles() {
   const { data, error } = await (await client()).from("profiles").select("*").neq("id", user?.id ?? "");
   if (error) throw error;
   return data.map(fromRow);
+}
+
+// ───────── 좋아요 · 매칭 ─────────
+// likes(from_id, to_id) 한 줄 = from 이 to 에게 좋아요. 양방향 두 줄이 모두 있으면 매칭.
+
+/** 좋아요 보내기. 상대도 이미 나를 좋아요 했으면 true (= 매칭 성사) */
+export async function sendLike(toId) {
+  const c = await client();
+  const user = await currentUser();
+  if (!user) throw new Error("로그인이 필요합니다.");
+  const { error } = await c.from("likes").upsert({ from_id: user.id, to_id: toId }, { onConflict: "from_id,to_id", ignoreDuplicates: true });
+  if (error) throw error;
+  const { data, error: e2 } = await c.from("likes").select("from_id").eq("from_id", toId).eq("to_id", user.id).maybeSingle();
+  if (e2) throw e2;
+  return Boolean(data);
+}
+
+/** 내가 보낸 좋아요(liked)와 나에게 온 좋아요(likedMe) */
+export async function fetchLikeState() {
+  const c = await client();
+  const user = await currentUser();
+  if (!user) return { liked: new Set(), likedMe: new Set() };
+  const { data, error } = await c.from("likes").select("from_id,to_id").or(`from_id.eq.${user.id},to_id.eq.${user.id}`);
+  if (error) throw error;
+  return {
+    liked: new Set(data.filter(r => r.from_id === user.id).map(r => r.to_id)),
+    likedMe: new Set(data.filter(r => r.to_id === user.id).map(r => r.from_id)),
+  };
 }

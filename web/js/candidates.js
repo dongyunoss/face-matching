@@ -42,7 +42,13 @@ export const DEMO_CANDIDATES = [
    "ESTJ"
   ],
   "bio": "한 달에 한 번은 여행 가려고 해요. 전시나 팝업 구경 다니는 거 좋아해요. 편하게 대화부터 해요!",
-  "region": "서울"
+  "region": "서울",
+  "importance": {
+   "face": 6,
+   "mbti": 1,
+   "interest": 3,
+   "distance": 1
+  }
  },
  {
   "id": "demo-02",
@@ -85,7 +91,13 @@ export const DEMO_CANDIDATES = [
   "mbti": "ISFJ",
   "prefMbti": [],
   "bio": "한 달에 한 번은 여행 가려고 해요. 전시나 팝업 구경 다니는 거 좋아해요. 편하게 대화부터 해요!",
-  "region": "경기"
+  "region": "경기",
+  "importance": {
+   "face": 3,
+   "mbti": 0,
+   "interest": 3,
+   "distance": 3
+  }
  },
  {
   "id": "demo-03",
@@ -132,7 +144,13 @@ export const DEMO_CANDIDATES = [
    "INTP"
   ],
   "bio": "집밥 해 먹는 걸 좋아해요. 드라이브 하면서 바다 보러 가는 거 좋아해요. 천천히 알아가고 싶어요.",
-  "region": "인천"
+  "region": "인천",
+  "importance": {
+   "face": 1,
+   "mbti": 1,
+   "interest": 1,
+   "distance": 3
+  }
  },
  {
   "id": "demo-04",
@@ -179,7 +197,13 @@ export const DEMO_CANDIDATES = [
    "ENFJ"
   ],
   "bio": "넷플 보면서 쉬는 게 최고의 힐링. 천천히 알아가고 싶어요.",
-  "region": "부산"
+  "region": "부산",
+  "importance": {
+   "face": 3,
+   "mbti": 3,
+   "interest": 6,
+   "distance": 1
+  }
  },
  {
   "id": "demo-05",
@@ -224,7 +248,13 @@ export const DEMO_CANDIDATES = [
    "ESTJ"
   ],
   "bio": "집밥 해 먹는 걸 좋아해요. 저녁엔 와인 한잔 좋아해요. 같이 맛있는 거 먹으러 가요!",
-  "region": "대구"
+  "region": "대구",
+  "importance": {
+   "face": 3,
+   "mbti": 1,
+   "interest": 1,
+   "distance": 0
+  }
  },
  {
   "id": "demo-06",
@@ -270,7 +300,13 @@ export const DEMO_CANDIDATES = [
    "ENFJ"
   ],
   "bio": "주말엔 동네 카페 탐방해요. 드라이브 하면서 바다 보러 가는 거 좋아해요. 같이 맛있는 거 먹으러 가요!",
-  "region": "광주"
+  "region": "광주",
+  "importance": {
+   "face": 3,
+   "mbti": 0,
+   "interest": 6,
+   "distance": 0
+  }
  },
  {
   "id": "demo-07",
@@ -314,7 +350,13 @@ export const DEMO_CANDIDATES = [
    "INTJ"
   ],
   "bio": "한 달에 한 번은 여행 가려고 해요. 연락 자주 하는 편이에요 :)",
-  "region": "대전"
+  "region": "대전",
+  "importance": {
+   "face": 3,
+   "mbti": 1,
+   "interest": 3,
+   "distance": 3
+  }
  },
  {
   "id": "demo-08",
@@ -359,7 +401,13 @@ export const DEMO_CANDIDATES = [
    "ENFP"
   ],
   "bio": "필름 카메라로 일상 찍는 걸 좋아해요. 저녁엔 와인 한잔 좋아해요. 웃음 코드 맞는 사람 좋아요.",
-  "region": "울산"
+  "region": "울산",
+  "importance": {
+   "face": 1,
+   "mbti": 1,
+   "interest": 3,
+   "distance": 3
+  }
  },
  {
   "id": "demo-09",
@@ -402,7 +450,13 @@ export const DEMO_CANDIDATES = [
   "mbti": "INTP",
   "prefMbti": [],
   "bio": "주말 아침 등산 다녀요. 드라이브 하면서 바다 보러 가는 거 좋아해요. 같이 맛있는 거 먹으러 가요!",
-  "region": "세종"
+  "region": "세종",
+  "importance": {
+   "face": 3,
+   "mbti": 1,
+   "interest": 1,
+   "distance": 1
+  }
  },
  {
   "id": "demo-10",
@@ -445,7 +499,13 @@ export const DEMO_CANDIDATES = [
   "mbti": "INFP",
   "prefMbti": [],
   "bio": "웨이팅 있는 맛집도 같이 기다려 줄 사람! 연락 자주 하는 편이에요 :)",
-  "region": "강원"
+  "region": "강원",
+  "importance": {
+   "face": 1,
+   "mbti": 3,
+   "interest": 1,
+   "distance": 3
+  }
  },
  {
   "id": "demo-11",
@@ -491,7 +551,13 @@ export const DEMO_CANDIDATES = [
    "INFJ"
   ],
   "bio": "요즘 에세이 읽는 재미에 빠졌어요. 솔직하고 다정한 사람이 좋아요.",
-  "region": "충북"
+  "region": "충북",
+  "importance": {
+   "face": 6,
+   "mbti": 1,
+   "interest": 1,
+   "distance": 1
+  }
  },
  {
   "id": "demo-12",
@@ -537,7 +603,13 @@ export const DEMO_CANDIDATES = [
    "ESTP"
   ],
   "bio": "콘서트랑 페스티벌 좋아해요. 쉬는 날엔 집순이 모드예요. 천천히 알아가고 싶어요.",
-  "region": "충남"
+  "region": "충남",
+  "importance": {
+   "face": 6,
+   "mbti": 0,
+   "interest": 1,
+   "distance": 0
+  }
  },
  {
   "id": "demo-13",
@@ -579,7 +651,13 @@ export const DEMO_CANDIDATES = [
   "mbti": "ISTP",
   "prefMbti": [],
   "bio": "퇴근하고 헬스 가는 게 루틴이에요. 솔직하고 다정한 사람이 좋아요.",
-  "region": "전북"
+  "region": "전북",
+  "importance": {
+   "face": 3,
+   "mbti": 1,
+   "interest": 3,
+   "distance": 0
+  }
  },
  {
   "id": "demo-14",
@@ -625,7 +703,13 @@ export const DEMO_CANDIDATES = [
    "ENTP"
   ],
   "bio": "콘서트랑 페스티벌 좋아해요. 천천히 알아가고 싶어요.",
-  "region": "전남"
+  "region": "전남",
+  "importance": {
+   "face": 1,
+   "mbti": 1,
+   "interest": 1,
+   "distance": 0
+  }
  },
  {
   "id": "demo-15",
@@ -670,7 +754,13 @@ export const DEMO_CANDIDATES = [
    "ISTP"
   ],
   "bio": "한 달에 한 번은 여행 가려고 해요. 쉬는 날엔 집순이 모드예요. 솔직하고 다정한 사람이 좋아요.",
-  "region": "경북"
+  "region": "경북",
+  "importance": {
+   "face": 6,
+   "mbti": 1,
+   "interest": 6,
+   "distance": 0
+  }
  },
  {
   "id": "demo-16",
@@ -714,7 +804,13 @@ export const DEMO_CANDIDATES = [
   "mbti": "ESFP",
   "prefMbti": [],
   "bio": "퇴근하고 헬스 가는 게 루틴이에요. 솔직하고 다정한 사람이 좋아요.",
-  "region": "경남"
+  "region": "경남",
+  "importance": {
+   "face": 6,
+   "mbti": 1,
+   "interest": 1,
+   "distance": 1
+  }
  },
  {
   "id": "demo-17",
@@ -759,7 +855,13 @@ export const DEMO_CANDIDATES = [
    "INTP"
   ],
   "bio": "웨이팅 있는 맛집도 같이 기다려 줄 사람! 저녁엔 와인 한잔 좋아해요. 웃음 코드 맞는 사람 좋아요.",
-  "region": "제주"
+  "region": "제주",
+  "importance": {
+   "face": 3,
+   "mbti": 0,
+   "interest": 1,
+   "distance": 1
+  }
  },
  {
   "id": "demo-18",
@@ -802,7 +904,13 @@ export const DEMO_CANDIDATES = [
   "mbti": "ENFP",
   "prefMbti": [],
   "bio": "요즘 에세이 읽는 재미에 빠졌어요. 쉬는 날엔 집순이 모드예요. 연락 자주 하는 편이에요 :)",
-  "region": "서울"
+  "region": "서울",
+  "importance": {
+   "face": 3,
+   "mbti": 1,
+   "interest": 1,
+   "distance": 0
+  }
  },
  {
   "id": "demo-19",
@@ -848,7 +956,13 @@ export const DEMO_CANDIDATES = [
    "ESTJ"
   ],
   "bio": "웨이팅 있는 맛집도 같이 기다려 줄 사람! 쉬는 날엔 집순이 모드예요. 같이 맛있는 거 먹으러 가요!",
-  "region": "경기"
+  "region": "경기",
+  "importance": {
+   "face": 6,
+   "mbti": 1,
+   "interest": 3,
+   "distance": 0
+  }
  },
  {
   "id": "demo-20",
@@ -891,7 +1005,13 @@ export const DEMO_CANDIDATES = [
   "mbti": "ESFJ",
   "prefMbti": [],
   "bio": "웨이팅 있는 맛집도 같이 기다려 줄 사람! 천천히 알아가고 싶어요.",
-  "region": "인천"
+  "region": "인천",
+  "importance": {
+   "face": 3,
+   "mbti": 0,
+   "interest": 3,
+   "distance": 0
+  }
  },
  {
   "id": "demo-21",
@@ -933,7 +1053,13 @@ export const DEMO_CANDIDATES = [
   "mbti": "INTJ",
   "prefMbti": [],
   "bio": "주말엔 동네 카페 탐방해요. 연락 자주 하는 편이에요 :)",
-  "region": "부산"
+  "region": "부산",
+  "importance": {
+   "face": 3,
+   "mbti": 3,
+   "interest": 3,
+   "distance": 3
+  }
  },
  {
   "id": "demo-22",
@@ -977,7 +1103,13 @@ export const DEMO_CANDIDATES = [
   "mbti": "INFP",
   "prefMbti": [],
   "bio": "집밥 해 먹는 걸 좋아해요. 쉬는 날엔 집순이 모드예요. 연락 자주 하는 편이에요 :)",
-  "region": "대구"
+  "region": "대구",
+  "importance": {
+   "face": 3,
+   "mbti": 0,
+   "interest": 6,
+   "distance": 1
+  }
  },
  {
   "id": "demo-23",
@@ -1023,7 +1155,13 @@ export const DEMO_CANDIDATES = [
    "ESFJ"
   ],
   "bio": "주말엔 동네 카페 탐방해요. 전시나 팝업 구경 다니는 거 좋아해요. 솔직하고 다정한 사람이 좋아요.",
-  "region": "광주"
+  "region": "광주",
+  "importance": {
+   "face": 1,
+   "mbti": 3,
+   "interest": 1,
+   "distance": 1
+  }
  },
  {
   "id": "demo-24",
@@ -1067,7 +1205,13 @@ export const DEMO_CANDIDATES = [
   "mbti": "ESFJ",
   "prefMbti": [],
   "bio": "주말엔 동네 카페 탐방해요. 전시나 팝업 구경 다니는 거 좋아해요. 천천히 알아가고 싶어요.",
-  "region": "대전"
+  "region": "대전",
+  "importance": {
+   "face": 3,
+   "mbti": 3,
+   "interest": 3,
+   "distance": 1
+  }
  },
  {
   "id": "demo-25",
@@ -1112,7 +1256,13 @@ export const DEMO_CANDIDATES = [
    "ISFJ"
   ],
   "bio": "퇴근하고 헬스 가는 게 루틴이에요. 연락 자주 하는 편이에요 :)",
-  "region": "울산"
+  "region": "울산",
+  "importance": {
+   "face": 1,
+   "mbti": 1,
+   "interest": 3,
+   "distance": 0
+  }
  },
  {
   "id": "demo-26",
@@ -1154,7 +1304,13 @@ export const DEMO_CANDIDATES = [
   "mbti": "ESFP",
   "prefMbti": [],
   "bio": "주말 아침 등산 다녀요. 저녁엔 와인 한잔 좋아해요. 연락 자주 하는 편이에요 :)",
-  "region": "세종"
+  "region": "세종",
+  "importance": {
+   "face": 1,
+   "mbti": 0,
+   "interest": 6,
+   "distance": 3
+  }
  },
  {
   "id": "demo-27",
@@ -1199,7 +1355,13 @@ export const DEMO_CANDIDATES = [
    "ISTP"
   ],
   "bio": "주말엔 동네 카페 탐방해요. 솔직하고 다정한 사람이 좋아요.",
-  "region": "강원"
+  "region": "강원",
+  "importance": {
+   "face": 6,
+   "mbti": 1,
+   "interest": 3,
+   "distance": 0
+  }
  },
  {
   "id": "demo-28",
@@ -1242,7 +1404,13 @@ export const DEMO_CANDIDATES = [
   "mbti": "ENTJ",
   "prefMbti": [],
   "bio": "요즘 에세이 읽는 재미에 빠졌어요. 연락 자주 하는 편이에요 :)",
-  "region": "충북"
+  "region": "충북",
+  "importance": {
+   "face": 6,
+   "mbti": 1,
+   "interest": 1,
+   "distance": 3
+  }
  },
  {
   "id": "demo-29",
@@ -1284,7 +1452,13 @@ export const DEMO_CANDIDATES = [
   "mbti": "INFP",
   "prefMbti": [],
   "bio": "집밥 해 먹는 걸 좋아해요. 전시나 팝업 구경 다니는 거 좋아해요. 웃음 코드 맞는 사람 좋아요.",
-  "region": "충남"
+  "region": "충남",
+  "importance": {
+   "face": 3,
+   "mbti": 1,
+   "interest": 3,
+   "distance": 1
+  }
  },
  {
   "id": "demo-30",
@@ -1328,7 +1502,13 @@ export const DEMO_CANDIDATES = [
   "mbti": "ESTJ",
   "prefMbti": [],
   "bio": "필름 카메라로 일상 찍는 걸 좋아해요. 웃음 코드 맞는 사람 좋아요.",
-  "region": "전북"
+  "region": "전북",
+  "importance": {
+   "face": 3,
+   "mbti": 1,
+   "interest": 1,
+   "distance": 0
+  }
  },
  {
   "id": "demo-31",
@@ -1372,7 +1552,13 @@ export const DEMO_CANDIDATES = [
    "ENTP"
   ],
   "bio": "필름 카메라로 일상 찍는 걸 좋아해요. 저녁엔 와인 한잔 좋아해요. 같이 맛있는 거 먹으러 가요!",
-  "region": "전남"
+  "region": "전남",
+  "importance": {
+   "face": 3,
+   "mbti": 1,
+   "interest": 3,
+   "distance": 0
+  }
  },
  {
   "id": "demo-32",
@@ -1416,7 +1602,13 @@ export const DEMO_CANDIDATES = [
   "mbti": "ENTJ",
   "prefMbti": [],
   "bio": "주말엔 동네 카페 탐방해요. 저녁엔 와인 한잔 좋아해요. 솔직하고 다정한 사람이 좋아요.",
-  "region": "경북"
+  "region": "경북",
+  "importance": {
+   "face": 3,
+   "mbti": 0,
+   "interest": 1,
+   "distance": 0
+  }
  },
  {
   "id": "demo-33",
@@ -1458,7 +1650,13 @@ export const DEMO_CANDIDATES = [
   "mbti": "ISFJ",
   "prefMbti": [],
   "bio": "닌텐도 같이 할 사람 구해요. 전시나 팝업 구경 다니는 거 좋아해요. 웃음 코드 맞는 사람 좋아요.",
-  "region": "경남"
+  "region": "경남",
+  "importance": {
+   "face": 6,
+   "mbti": 1,
+   "interest": 6,
+   "distance": 1
+  }
  },
  {
   "id": "demo-34",
@@ -1504,7 +1702,13 @@ export const DEMO_CANDIDATES = [
    "ISFJ"
   ],
   "bio": "한 달에 한 번은 여행 가려고 해요. 전시나 팝업 구경 다니는 거 좋아해요. 솔직하고 다정한 사람이 좋아요.",
-  "region": "제주"
+  "region": "제주",
+  "importance": {
+   "face": 1,
+   "mbti": 1,
+   "interest": 3,
+   "distance": 1
+  }
  },
  {
   "id": "demo-35",
@@ -1550,7 +1754,13 @@ export const DEMO_CANDIDATES = [
    "ESTJ"
   ],
   "bio": "웨이팅 있는 맛집도 같이 기다려 줄 사람! 전시나 팝업 구경 다니는 거 좋아해요. 천천히 알아가고 싶어요.",
-  "region": "서울"
+  "region": "서울",
+  "importance": {
+   "face": 6,
+   "mbti": 1,
+   "interest": 3,
+   "distance": 0
+  }
  },
  {
   "id": "demo-36",
@@ -1592,7 +1802,13 @@ export const DEMO_CANDIDATES = [
   "mbti": "INTJ",
   "prefMbti": [],
   "bio": "주말 아침 등산 다녀요. 같이 맛있는 거 먹으러 가요!",
-  "region": "경기"
+  "region": "경기",
+  "importance": {
+   "face": 3,
+   "mbti": 0,
+   "interest": 1,
+   "distance": 3
+  }
  },
  {
   "id": "demo-37",
@@ -1636,7 +1852,13 @@ export const DEMO_CANDIDATES = [
   "mbti": "ENFJ",
   "prefMbti": [],
   "bio": "넷플 보면서 쉬는 게 최고의 힐링. 천천히 알아가고 싶어요.",
-  "region": "인천"
+  "region": "인천",
+  "importance": {
+   "face": 6,
+   "mbti": 1,
+   "interest": 6,
+   "distance": 1
+  }
  },
  {
   "id": "demo-38",
@@ -1681,7 +1903,13 @@ export const DEMO_CANDIDATES = [
    "ESFJ"
   ],
   "bio": "닌텐도 같이 할 사람 구해요. 쉬는 날엔 집순이 모드예요. 천천히 알아가고 싶어요.",
-  "region": "부산"
+  "region": "부산",
+  "importance": {
+   "face": 3,
+   "mbti": 3,
+   "interest": 3,
+   "distance": 0
+  }
  },
  {
   "id": "demo-39",
@@ -1725,7 +1953,13 @@ export const DEMO_CANDIDATES = [
   "mbti": "INTP",
   "prefMbti": [],
   "bio": "웨이팅 있는 맛집도 같이 기다려 줄 사람! 전시나 팝업 구경 다니는 거 좋아해요. 연락 자주 하는 편이에요 :)",
-  "region": "대구"
+  "region": "대구",
+  "importance": {
+   "face": 1,
+   "mbti": 1,
+   "interest": 3,
+   "distance": 1
+  }
  },
  {
   "id": "demo-40",
@@ -1767,6 +2001,12 @@ export const DEMO_CANDIDATES = [
   "mbti": "ENFJ",
   "prefMbti": [],
   "bio": "요즘 에세이 읽는 재미에 빠졌어요. 저녁엔 와인 한잔 좋아해요. 편하게 대화부터 해요!",
-  "region": "광주"
+  "region": "광주",
+  "importance": {
+   "face": 1,
+   "mbti": 1,
+   "interest": 3,
+   "distance": 0
+  }
  }
 ];
