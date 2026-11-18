@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">동물상 소개팅</string>
+    <string name="title_activity_main">동물상 소개팅</string>
+    <string name="package_name">com.animalmatch.app</string>
+    <string name="custom_url_scheme">com.animalmatch.app</string>
+</resources>

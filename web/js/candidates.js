@@ -2,17 +2,15 @@
 export const DEMO_CANDIDATES = [
  {
   "id": "demo-01",
-  "nickname": "산책하는구름",
+  "nickname": "커피좋아노을",
   "gender": "M",
   "age": 31,
   "seek": "F",
   "ageMin": 28,
-  "ageMax": 36,
+  "ageMax": 35,
   "hobbies": [
-   "운동",
-   "사진",
-   "카페",
-   "등산"
+   "여행",
+   "사진"
   ],
   "face": [
    0.1375,
@@ -38,19 +36,32 @@ export const DEMO_CANDIDATES = [
    0.0,
    0.0
   ],
-  "faceType": "bear"
+  "faceType": "bear",
+  "mbti": "INTP",
+  "prefMbti": [
+   "ESTJ"
+  ],
+  "bio": "한 달에 한 번은 여행 가려고 해요. 전시나 팝업 구경 다니는 거 좋아해요. 편하게 대화부터 해요!",
+  "region": "서울",
+  "importance": {
+   "face": 6,
+   "mbti": 1,
+   "interest": 3,
+   "distance": 1
+  }
  },
  {
   "id": "demo-02",
-  "nickname": "커피좋아숲",
+  "nickname": "운동하는봄비",
   "gender": "F",
   "age": 27,
   "seek": "M",
   "ageMin": 24,
-  "ageMax": 33,
+  "ageMax": 30,
   "hobbies": [
-   "요리",
-   "여행"
+   "여행",
+   "카페",
+   "등산"
   ],
   "face": [
    0.0,
@@ -66,29 +77,41 @@ export const DEMO_CANDIDATES = [
   ],
   "pref": [
    0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
    1.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
    0.0,
    0.0,
    0.0
   ],
-  "faceType": "rabbit"
+  "faceType": "rabbit",
+  "mbti": "ISFJ",
+  "prefMbti": [],
+  "bio": "한 달에 한 번은 여행 가려고 해요. 전시나 팝업 구경 다니는 거 좋아해요. 편하게 대화부터 해요!",
+  "region": "경기",
+  "importance": {
+   "face": 3,
+   "mbti": 0,
+   "interest": 3,
+   "distance": 3
+  }
  },
  {
   "id": "demo-03",
-  "nickname": "영화보는파도",
+  "nickname": "산책하는새벽",
   "gender": "M",
   "age": 21,
   "seek": "F",
   "ageMin": 19,
-  "ageMax": 24,
+  "ageMax": 26,
   "hobbies": [
+   "요리",
+   "게임",
    "운동",
-   "사진"
+   "카페"
   ],
   "face": [
    0.2911,
@@ -114,21 +137,34 @@ export const DEMO_CANDIDATES = [
    0.0,
    1.0
   ],
-  "faceType": "rabbit"
+  "faceType": "rabbit",
+  "mbti": "INFP",
+  "prefMbti": [
+   "ISTJ",
+   "INTP"
+  ],
+  "bio": "집밥 해 먹는 걸 좋아해요. 드라이브 하면서 바다 보러 가는 거 좋아해요. 천천히 알아가고 싶어요.",
+  "region": "인천",
+  "importance": {
+   "face": 1,
+   "mbti": 1,
+   "interest": 1,
+   "distance": 3
+  }
  },
  {
   "id": "demo-04",
-  "nickname": "주말캠핑새벽",
+  "nickname": "영화보는파도",
   "gender": "F",
-  "age": 27,
+  "age": 22,
   "seek": "M",
-  "ageMin": 24,
-  "ageMax": 32,
+  "ageMin": 19,
+  "ageMax": 27,
   "hobbies": [
-   "반려동물",
+   "영화",
+   "사진",
    "맛집",
-   "여행",
-   "카페"
+   "여행"
   ],
   "face": [
    0.004,
@@ -145,29 +181,41 @@ export const DEMO_CANDIDATES = [
   "pref": [
    0.0,
    0.0,
-   0.0,
-   0.0,
-   1.0,
-   0.0,
+   0.625,
    0.0,
    0.0,
    0.0,
+   0.0,
+   0.0,
+   0.375,
    0.0
   ],
-  "faceType": "squirrel"
+  "faceType": "squirrel",
+  "mbti": "ESTJ",
+  "prefMbti": [
+   "INFP",
+   "ENFJ"
+  ],
+  "bio": "넷플 보면서 쉬는 게 최고의 힐링. 천천히 알아가고 싶어요.",
+  "region": "부산",
+  "importance": {
+   "face": 3,
+   "mbti": 3,
+   "interest": 6,
+   "distance": 1
+  }
  },
  {
   "id": "demo-05",
-  "nickname": "커피좋아파도",
+  "nickname": "영화보는숲",
   "gender": "M",
   "age": 32,
   "seek": "F",
-  "ageMin": 29,
-  "ageMax": 36,
+  "ageMin": 26,
+  "ageMax": 38,
   "hobbies": [
-   "반려동물",
-   "사진",
-   "게임"
+   "요리",
+   "운동"
   ],
   "face": [
    0.1219,
@@ -183,29 +231,43 @@ export const DEMO_CANDIDATES = [
   ],
   "pref": [
    0.0,
-   0.625,
    0.0,
    0.0,
    0.0,
    0.0,
    0.0,
    0.0,
-   0.375,
+   0.0,
+   1.0,
    0.0
   ],
-  "faceType": "fox"
+  "faceType": "fox",
+  "mbti": "INFJ",
+  "prefMbti": [
+   "INTP",
+   "ESTJ"
+  ],
+  "bio": "집밥 해 먹는 걸 좋아해요. 저녁엔 와인 한잔 좋아해요. 같이 맛있는 거 먹으러 가요!",
+  "region": "대구",
+  "importance": {
+   "face": 3,
+   "mbti": 1,
+   "interest": 1,
+   "distance": 0
+  }
  },
  {
   "id": "demo-06",
-  "nickname": "책읽는숲",
+  "nickname": "커피좋아파도",
   "gender": "F",
   "age": 26,
   "seek": "M",
-  "ageMin": 22,
-  "ageMax": 30,
+  "ageMin": 21,
+  "ageMax": 32,
   "hobbies": [
-   "요리",
-   "영화"
+   "카페",
+   "맛집",
+   "등산"
   ],
   "face": [
    0.0557,
@@ -231,19 +293,32 @@ export const DEMO_CANDIDATES = [
    0.0,
    0.375
   ],
-  "faceType": "cat"
+  "faceType": "cat",
+  "mbti": "ESTP",
+  "prefMbti": [
+   "ENTJ",
+   "ENFJ"
+  ],
+  "bio": "주말엔 동네 카페 탐방해요. 드라이브 하면서 바다 보러 가는 거 좋아해요. 같이 맛있는 거 먹으러 가요!",
+  "region": "광주",
+  "importance": {
+   "face": 3,
+   "mbti": 0,
+   "interest": 6,
+   "distance": 0
+  }
  },
  {
   "id": "demo-07",
-  "nickname": "영화보는구름",
+  "nickname": "요리하는바다",
   "gender": "M",
-  "age": 25,
+  "age": 30,
   "seek": "F",
-  "ageMin": 22,
-  "ageMax": 31,
+  "ageMin": 25,
+  "ageMax": 34,
   "hobbies": [
-   "음악",
-   "맛집"
+   "여행",
+   "사진"
   ],
   "face": [
    0.0033,
@@ -262,28 +337,38 @@ export const DEMO_CANDIDATES = [
    0.0,
    0.0,
    0.0,
+   0.375,
    0.0,
-   0.3,
    0.0,
-   0.5,
+   0.625,
    0.0,
-   0.2
+   0.0
   ],
-  "faceType": "squirrel"
+  "faceType": "squirrel",
+  "mbti": "INTJ",
+  "prefMbti": [
+   "INTJ"
+  ],
+  "bio": "한 달에 한 번은 여행 가려고 해요. 연락 자주 하는 편이에요 :)",
+  "region": "대전",
+  "importance": {
+   "face": 3,
+   "mbti": 1,
+   "interest": 3,
+   "distance": 3
+  }
  },
  {
   "id": "demo-08",
-  "nickname": "커피좋아새벽",
+  "nickname": "노래하는노을",
   "gender": "F",
   "age": 31,
   "seek": "M",
   "ageMin": 26,
-  "ageMax": 36,
+  "ageMax": 37,
   "hobbies": [
-   "음악",
-   "요리",
-   "독서",
-   "반려동물"
+   "사진",
+   "요리"
   ],
   "face": [
    0.0688,
@@ -309,21 +394,33 @@ export const DEMO_CANDIDATES = [
    0.0,
    0.0
   ],
-  "faceType": "cat"
+  "faceType": "cat",
+  "mbti": "ESTJ",
+  "prefMbti": [
+   "INTJ",
+   "ENFP"
+  ],
+  "bio": "필름 카메라로 일상 찍는 걸 좋아해요. 저녁엔 와인 한잔 좋아해요. 웃음 코드 맞는 사람 좋아요.",
+  "region": "울산",
+  "importance": {
+   "face": 1,
+   "mbti": 1,
+   "interest": 3,
+   "distance": 3
+  }
  },
  {
   "id": "demo-09",
-  "nickname": "여행가는구름",
+  "nickname": "산책하는달",
   "gender": "M",
   "age": 25,
   "seek": "F",
-  "ageMin": 22,
+  "ageMin": 19,
   "ageMax": 30,
   "hobbies": [
-   "요리",
+   "등산",
    "반려동물",
-   "독서",
-   "영화"
+   "여행"
   ],
   "face": [
    0.3409,
@@ -339,29 +436,40 @@ export const DEMO_CANDIDATES = [
   ],
   "pref": [
    0.0,
-   1.0,
+   0.3,
    0.0,
    0.0,
    0.0,
    0.0,
    0.0,
-   0.0,
-   0.0,
+   0.5,
+   0.2,
    0.0
   ],
-  "faceType": "dog"
+  "faceType": "dog",
+  "mbti": "INTP",
+  "prefMbti": [],
+  "bio": "주말 아침 등산 다녀요. 드라이브 하면서 바다 보러 가는 거 좋아해요. 같이 맛있는 거 먹으러 가요!",
+  "region": "세종",
+  "importance": {
+   "face": 3,
+   "mbti": 1,
+   "interest": 1,
+   "distance": 1
+  }
  },
  {
   "id": "demo-10",
-  "nickname": "노래하는바다",
+  "nickname": "여행가는별",
   "gender": "F",
   "age": 28,
   "seek": "M",
-  "ageMin": 25,
-  "ageMax": 34,
+  "ageMin": 24,
+  "ageMax": 33,
   "hobbies": [
-   "카페",
-   "영화"
+   "맛집",
+   "요리",
+   "여행"
   ],
   "face": [
    0.0021,
@@ -387,20 +495,30 @@ export const DEMO_CANDIDATES = [
    0.0,
    0.0
   ],
-  "faceType": "rabbit"
+  "faceType": "rabbit",
+  "mbti": "INFP",
+  "prefMbti": [],
+  "bio": "웨이팅 있는 맛집도 같이 기다려 줄 사람! 연락 자주 하는 편이에요 :)",
+  "region": "강원",
+  "importance": {
+   "face": 1,
+   "mbti": 3,
+   "interest": 1,
+   "distance": 3
+  }
  },
  {
   "id": "demo-11",
-  "nickname": "요리하는햇살",
+  "nickname": "여행가는봄비",
   "gender": "M",
   "age": 27,
   "seek": "F",
-  "ageMin": 24,
+  "ageMin": 22,
   "ageMax": 31,
   "hobbies": [
-   "게임",
-   "사진",
-   "영화"
+   "독서",
+   "여행",
+   "맛집"
   ],
   "face": [
    0.0639,
@@ -426,21 +544,33 @@ export const DEMO_CANDIDATES = [
    0.0,
    0.0
   ],
-  "faceType": "wolf"
+  "faceType": "wolf",
+  "mbti": "ISFJ",
+  "prefMbti": [
+   "INFP",
+   "INFJ"
+  ],
+  "bio": "요즘 에세이 읽는 재미에 빠졌어요. 솔직하고 다정한 사람이 좋아요.",
+  "region": "충북",
+  "importance": {
+   "face": 6,
+   "mbti": 1,
+   "interest": 1,
+   "distance": 1
+  }
  },
  {
   "id": "demo-12",
-  "nickname": "운동하는달",
+  "nickname": "야경보는바다",
   "gender": "F",
-  "age": 34,
+  "age": 32,
   "seek": "M",
-  "ageMin": 28,
-  "ageMax": 39,
+  "ageMin": 29,
+  "ageMax": 36,
   "hobbies": [
-   "게임",
-   "카페",
-   "맛집",
-   "여행"
+   "음악",
+   "반려동물",
+   "게임"
   ],
   "face": [
    0.1929,
@@ -459,27 +589,39 @@ export const DEMO_CANDIDATES = [
    0.0,
    0.0,
    0.0,
+   0.375,
    0.0,
    0.0,
-   1.0,
    0.0,
-   0.0,
+   0.625,
    0.0
   ],
-  "faceType": "dino"
+  "faceType": "dino",
+  "mbti": "ENFJ",
+  "prefMbti": [
+   "ESFP",
+   "ESTP"
+  ],
+  "bio": "콘서트랑 페스티벌 좋아해요. 쉬는 날엔 집순이 모드예요. 천천히 알아가고 싶어요.",
+  "region": "충남",
+  "importance": {
+   "face": 6,
+   "mbti": 0,
+   "interest": 1,
+   "distance": 0
+  }
  },
  {
   "id": "demo-13",
-  "nickname": "야경보는별",
+  "nickname": "영화보는바다",
   "gender": "M",
-  "age": 24,
+  "age": 31,
   "seek": "F",
-  "ageMin": 19,
-  "ageMax": 28,
+  "ageMin": 26,
+  "ageMax": 36,
   "hobbies": [
-   "영화",
    "운동",
-   "맛집"
+   "독서"
   ],
   "face": [
    0.2003,
@@ -496,8 +638,8 @@ export const DEMO_CANDIDATES = [
   "pref": [
    0.0,
    0.0,
-   1.0,
    0.0,
+   1.0,
    0.0,
    0.0,
    0.0,
@@ -505,20 +647,31 @@ export const DEMO_CANDIDATES = [
    0.0,
    0.0
   ],
-  "faceType": "rabbit"
+  "faceType": "rabbit",
+  "mbti": "ISTP",
+  "prefMbti": [],
+  "bio": "퇴근하고 헬스 가는 게 루틴이에요. 솔직하고 다정한 사람이 좋아요.",
+  "region": "전북",
+  "importance": {
+   "face": 3,
+   "mbti": 1,
+   "interest": 3,
+   "distance": 0
+  }
  },
  {
   "id": "demo-14",
-  "nickname": "영화보는노을",
+  "nickname": "주말캠핑새벽",
   "gender": "F",
-  "age": 30,
+  "age": 27,
   "seek": "M",
-  "ageMin": 26,
+  "ageMin": 24,
   "ageMax": 33,
   "hobbies": [
+   "음악",
+   "요리",
    "반려동물",
-   "사진",
-   "게임"
+   "등산"
   ],
   "face": [
    0.3169,
@@ -535,28 +688,41 @@ export const DEMO_CANDIDATES = [
   "pref": [
    0.0,
    0.0,
+   1.0,
    0.0,
    0.0,
    0.0,
-   0.375,
    0.0,
    0.0,
-   0.625,
+   0.0,
    0.0
   ],
-  "faceType": "dog"
+  "faceType": "dog",
+  "mbti": "INTJ",
+  "prefMbti": [
+   "ENTP"
+  ],
+  "bio": "콘서트랑 페스티벌 좋아해요. 천천히 알아가고 싶어요.",
+  "region": "전남",
+  "importance": {
+   "face": 1,
+   "mbti": 1,
+   "interest": 1,
+   "distance": 0
+  }
  },
  {
   "id": "demo-15",
-  "nickname": "여행가는봄비",
+  "nickname": "산책하는숲",
   "gender": "M",
-  "age": 22,
+  "age": 27,
   "seek": "F",
-  "ageMin": 19,
-  "ageMax": 26,
+  "ageMin": 24,
+  "ageMax": 31,
   "hobbies": [
-   "카페",
-   "독서"
+   "여행",
+   "독서",
+   "게임"
   ],
   "face": [
    0.0936,
@@ -577,26 +743,38 @@ export const DEMO_CANDIDATES = [
    0.0,
    0.0,
    0.0,
-   0.625,
+   0.3,
    0.0,
-   0.0,
-   0.375
+   0.5,
+   0.2
   ],
-  "faceType": "deer"
+  "faceType": "deer",
+  "mbti": "INFP",
+  "prefMbti": [
+   "ISTP"
+  ],
+  "bio": "한 달에 한 번은 여행 가려고 해요. 쉬는 날엔 집순이 모드예요. 솔직하고 다정한 사람이 좋아요.",
+  "region": "경북",
+  "importance": {
+   "face": 6,
+   "mbti": 1,
+   "interest": 6,
+   "distance": 0
+  }
  },
  {
   "id": "demo-16",
-  "nickname": "영화보는별",
+  "nickname": "운동하는구름",
   "gender": "F",
   "age": 26,
   "seek": "M",
-  "ageMin": 23,
+  "ageMin": 21,
   "ageMax": 29,
   "hobbies": [
-   "맛집",
-   "사진",
+   "운동",
    "여행",
-   "음악"
+   "등산",
+   "맛집"
   ],
   "face": [
    0.4331,
@@ -612,8 +790,8 @@ export const DEMO_CANDIDATES = [
   ],
   "pref": [
    0.0,
-   1.0,
-   0.0,
+   0.375,
+   0.625,
    0.0,
    0.0,
    0.0,
@@ -622,21 +800,30 @@ export const DEMO_CANDIDATES = [
    0.0,
    0.0
   ],
-  "faceType": "dog"
+  "faceType": "dog",
+  "mbti": "ESFP",
+  "prefMbti": [],
+  "bio": "퇴근하고 헬스 가는 게 루틴이에요. 솔직하고 다정한 사람이 좋아요.",
+  "region": "경남",
+  "importance": {
+   "face": 6,
+   "mbti": 1,
+   "interest": 1,
+   "distance": 1
+  }
  },
  {
   "id": "demo-17",
-  "nickname": "요리하는바다",
+  "nickname": "노래하는파도",
   "gender": "M",
   "age": 30,
   "seek": "F",
   "ageMin": 25,
-  "ageMax": 35,
+  "ageMax": 36,
   "hobbies": [
-   "음악",
-   "독서",
-   "여행",
-   "요리"
+   "맛집",
+   "반려동물",
+   "영화"
   ],
   "face": [
    0.0014,
@@ -651,10 +838,10 @@ export const DEMO_CANDIDATES = [
    0.0064
   ],
   "pref": [
-   0.5,
-   0.3,
    0.0,
-   0.2,
+   0.0,
+   0.0,
+   1.0,
    0.0,
    0.0,
    0.0,
@@ -662,21 +849,32 @@ export const DEMO_CANDIDATES = [
    0.0,
    0.0
   ],
-  "faceType": "wolf"
+  "faceType": "wolf",
+  "mbti": "INTP",
+  "prefMbti": [
+   "INTP"
+  ],
+  "bio": "웨이팅 있는 맛집도 같이 기다려 줄 사람! 저녁엔 와인 한잔 좋아해요. 웃음 코드 맞는 사람 좋아요.",
+  "region": "제주",
+  "importance": {
+   "face": 3,
+   "mbti": 0,
+   "interest": 1,
+   "distance": 1
+  }
  },
  {
   "id": "demo-18",
   "nickname": "책읽는구름",
   "gender": "F",
-  "age": 28,
+  "age": 34,
   "seek": "M",
-  "ageMin": 24,
-  "ageMax": 31,
+  "ageMin": 30,
+  "ageMax": 37,
   "hobbies": [
-   "음악",
-   "영화",
    "독서",
-   "맛집"
+   "등산",
+   "반려동물"
   ],
   "face": [
    0.0001,
@@ -692,31 +890,41 @@ export const DEMO_CANDIDATES = [
   ],
   "pref": [
    0.0,
+   1.0,
    0.0,
    0.0,
    0.0,
    0.0,
    0.0,
    0.0,
-   0.625,
    0.0,
-   0.375
+   0.0
   ],
-  "faceType": "horse"
+  "faceType": "horse",
+  "mbti": "ENFP",
+  "prefMbti": [],
+  "bio": "요즘 에세이 읽는 재미에 빠졌어요. 쉬는 날엔 집순이 모드예요. 연락 자주 하는 편이에요 :)",
+  "region": "서울",
+  "importance": {
+   "face": 3,
+   "mbti": 1,
+   "interest": 1,
+   "distance": 0
+  }
  },
  {
   "id": "demo-19",
-  "nickname": "운동하는별",
+  "nickname": "운동하는노을",
   "gender": "M",
-  "age": 23,
+  "age": 34,
   "seek": "F",
-  "ageMin": 19,
-  "ageMax": 26,
+  "ageMin": 30,
+  "ageMax": 37,
   "hobbies": [
-   "영화",
+   "맛집",
    "사진",
-   "음악",
-   "맛집"
+   "운동",
+   "카페"
   ],
   "face": [
    0.0264,
@@ -731,29 +939,42 @@ export const DEMO_CANDIDATES = [
    0.0919
   ],
   "pref": [
-   0.5,
+   0.0,
+   0.0,
    0.0,
    0.0,
    0.3,
+   0.5,
    0.0,
    0.2,
    0.0,
-   0.0,
-   0.0,
    0.0
   ],
-  "faceType": "cat"
+  "faceType": "cat",
+  "mbti": "ESFJ",
+  "prefMbti": [
+   "ESTJ"
+  ],
+  "bio": "웨이팅 있는 맛집도 같이 기다려 줄 사람! 쉬는 날엔 집순이 모드예요. 같이 맛있는 거 먹으러 가요!",
+  "region": "경기",
+  "importance": {
+   "face": 6,
+   "mbti": 1,
+   "interest": 3,
+   "distance": 0
+  }
  },
  {
   "id": "demo-20",
-  "nickname": "운동하는노을",
+  "nickname": "운동하는새벽",
   "gender": "F",
   "age": 29,
   "seek": "M",
-  "ageMin": 25,
+  "ageMin": 24,
   "ageMax": 33,
   "hobbies": [
-   "게임",
+   "맛집",
+   "음악",
    "카페"
   ],
   "face": [
@@ -770,30 +991,39 @@ export const DEMO_CANDIDATES = [
   ],
   "pref": [
    0.0,
+   0.3,
    0.0,
    0.0,
-   0.625,
+   0.5,
    0.0,
    0.0,
    0.0,
    0.0,
-   0.375,
-   0.0
+   0.2
   ],
-  "faceType": "dog"
+  "faceType": "dog",
+  "mbti": "ESFJ",
+  "prefMbti": [],
+  "bio": "웨이팅 있는 맛집도 같이 기다려 줄 사람! 천천히 알아가고 싶어요.",
+  "region": "인천",
+  "importance": {
+   "face": 3,
+   "mbti": 0,
+   "interest": 3,
+   "distance": 0
+  }
  },
  {
   "id": "demo-21",
-  "nickname": "노래하는별",
+  "nickname": "여행가는노을",
   "gender": "M",
-  "age": 28,
+  "age": 32,
   "seek": "F",
-  "ageMin": 25,
-  "ageMax": 33,
+  "ageMin": 29,
+  "ageMax": 35,
   "hobbies": [
-   "영화",
    "카페",
-   "요리"
+   "사진"
   ],
   "face": [
    0.0427,
@@ -811,28 +1041,39 @@ export const DEMO_CANDIDATES = [
    0.0,
    0.0,
    0.0,
+   0.5,
    0.0,
    0.0,
+   0.2,
    0.0,
    0.0,
-   0.0,
-   1.0,
-   0.0
+   0.3
   ],
-  "faceType": "rabbit"
+  "faceType": "rabbit",
+  "mbti": "INTJ",
+  "prefMbti": [],
+  "bio": "주말엔 동네 카페 탐방해요. 연락 자주 하는 편이에요 :)",
+  "region": "부산",
+  "importance": {
+   "face": 3,
+   "mbti": 3,
+   "interest": 3,
+   "distance": 3
+  }
  },
  {
   "id": "demo-22",
-  "nickname": "커피좋아숲",
+  "nickname": "노래하는구름",
   "gender": "F",
-  "age": 26,
+  "age": 24,
   "seek": "M",
-  "ageMin": 23,
-  "ageMax": 30,
+  "ageMin": 20,
+  "ageMax": 27,
   "hobbies": [
-   "카페",
+   "요리",
    "음악",
-   "등산"
+   "독서",
+   "반려동물"
   ],
   "face": [
    0.0355,
@@ -851,28 +1092,37 @@ export const DEMO_CANDIDATES = [
    0.0,
    0.0,
    0.0,
-   0.0,
    0.375,
+   0.0,
    0.0,
    0.625,
    0.0,
    0.0
   ],
-  "faceType": "cat"
+  "faceType": "cat",
+  "mbti": "INFP",
+  "prefMbti": [],
+  "bio": "집밥 해 먹는 걸 좋아해요. 쉬는 날엔 집순이 모드예요. 연락 자주 하는 편이에요 :)",
+  "region": "대구",
+  "importance": {
+   "face": 3,
+   "mbti": 0,
+   "interest": 6,
+   "distance": 1
+  }
  },
  {
   "id": "demo-23",
-  "nickname": "노래하는구름",
+  "nickname": "영화보는별",
   "gender": "M",
-  "age": 28,
+  "age": 24,
   "seek": "F",
-  "ageMin": 25,
-  "ageMax": 34,
+  "ageMin": 19,
+  "ageMax": 29,
   "hobbies": [
    "카페",
    "독서",
-   "맛집",
-   "게임"
+   "요리"
   ],
   "face": [
    0.4627,
@@ -887,7 +1137,6 @@ export const DEMO_CANDIDATES = [
    0.071
   ],
   "pref": [
-   0.375,
    0.0,
    0.0,
    0.0,
@@ -895,22 +1144,38 @@ export const DEMO_CANDIDATES = [
    0.0,
    0.0,
    0.0,
+   1.0,
    0.0,
-   0.625
+   0.0
   ],
-  "faceType": "dog"
+  "faceType": "dog",
+  "mbti": "ISTJ",
+  "prefMbti": [
+   "ENFP",
+   "ESFJ"
+  ],
+  "bio": "주말엔 동네 카페 탐방해요. 전시나 팝업 구경 다니는 거 좋아해요. 솔직하고 다정한 사람이 좋아요.",
+  "region": "광주",
+  "importance": {
+   "face": 1,
+   "mbti": 3,
+   "interest": 1,
+   "distance": 1
+  }
  },
  {
   "id": "demo-24",
-  "nickname": "요리하는구름",
+  "nickname": "노래하는구름",
   "gender": "F",
-  "age": 28,
+  "age": 33,
   "seek": "M",
-  "ageMin": 24,
-  "ageMax": 32,
+  "ageMin": 27,
+  "ageMax": 39,
   "hobbies": [
-   "운동",
-   "맛집"
+   "카페",
+   "독서",
+   "맛집",
+   "게임"
   ],
   "face": [
    0.0145,
@@ -926,29 +1191,39 @@ export const DEMO_CANDIDATES = [
   ],
   "pref": [
    0.0,
-   0.3,
-   0.0,
-   0.0,
-   0.0,
    0.5,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
    0.2,
    0.0,
    0.0,
-   0.0
+   0.3
   ],
-  "faceType": "horse"
+  "faceType": "horse",
+  "mbti": "ESFJ",
+  "prefMbti": [],
+  "bio": "주말엔 동네 카페 탐방해요. 전시나 팝업 구경 다니는 거 좋아해요. 천천히 알아가고 싶어요.",
+  "region": "대전",
+  "importance": {
+   "face": 3,
+   "mbti": 3,
+   "interest": 3,
+   "distance": 1
+  }
  },
  {
   "id": "demo-25",
-  "nickname": "노래하는바다",
+  "nickname": "영화보는햇살",
   "gender": "M",
-  "age": 31,
+  "age": 23,
   "seek": "F",
-  "ageMin": 27,
-  "ageMax": 34,
+  "ageMin": 19,
+  "ageMax": 29,
   "hobbies": [
-   "등산",
-   "반려동물"
+   "운동",
+   "맛집"
   ],
   "face": [
    0.0081,
@@ -964,29 +1239,42 @@ export const DEMO_CANDIDATES = [
   ],
   "pref": [
    0.0,
-   0.0,
-   0.3,
-   0.0,
-   0.0,
+   0.625,
+   0.375,
    0.0,
    0.0,
-   0.5,
    0.0,
-   0.2
+   0.0,
+   0.0,
+   0.0,
+   0.0
   ],
-  "faceType": "bear"
+  "faceType": "bear",
+  "mbti": "ENFJ",
+  "prefMbti": [
+   "ESFJ",
+   "ISFJ"
+  ],
+  "bio": "퇴근하고 헬스 가는 게 루틴이에요. 연락 자주 하는 편이에요 :)",
+  "region": "울산",
+  "importance": {
+   "face": 1,
+   "mbti": 1,
+   "interest": 3,
+   "distance": 0
+  }
  },
  {
   "id": "demo-26",
-  "nickname": "주말캠핑봄비",
+  "nickname": "커피좋아새벽",
   "gender": "F",
-  "age": 32,
+  "age": 21,
   "seek": "M",
-  "ageMin": 28,
-  "ageMax": 36,
+  "ageMin": 19,
+  "ageMax": 27,
   "hobbies": [
-   "영화",
-   "카페"
+   "등산",
+   "반려동물"
   ],
   "face": [
    0.0,
@@ -1003,28 +1291,39 @@ export const DEMO_CANDIDATES = [
   "pref": [
    0.0,
    0.0,
+   0.3,
    0.0,
    0.0,
+   0.5,
    0.0,
    0.0,
-   0.0,
-   0.0,
-   1.0,
+   0.2,
    0.0
   ],
-  "faceType": "squirrel"
+  "faceType": "squirrel",
+  "mbti": "ESFP",
+  "prefMbti": [],
+  "bio": "주말 아침 등산 다녀요. 저녁엔 와인 한잔 좋아해요. 연락 자주 하는 편이에요 :)",
+  "region": "세종",
+  "importance": {
+   "face": 1,
+   "mbti": 0,
+   "interest": 6,
+   "distance": 3
+  }
  },
  {
   "id": "demo-27",
-  "nickname": "영화보는노을",
+  "nickname": "야경보는파도",
   "gender": "M",
-  "age": 33,
+  "age": 21,
   "seek": "F",
-  "ageMin": 28,
-  "ageMax": 39,
+  "ageMin": 19,
+  "ageMax": 26,
   "hobbies": [
-   "운동",
-   "음악"
+   "카페",
+   "영화",
+   "사진"
   ],
   "face": [
    0.0689,
@@ -1042,28 +1341,40 @@ export const DEMO_CANDIDATES = [
    0.0,
    0.0,
    0.0,
-   0.375,
+   1.0,
    0.0,
    0.0,
    0.0,
    0.0,
-   0.625,
+   0.0,
    0.0
   ],
-  "faceType": "rabbit"
+  "faceType": "rabbit",
+  "mbti": "INTJ",
+  "prefMbti": [
+   "ISTP"
+  ],
+  "bio": "주말엔 동네 카페 탐방해요. 솔직하고 다정한 사람이 좋아요.",
+  "region": "강원",
+  "importance": {
+   "face": 6,
+   "mbti": 1,
+   "interest": 3,
+   "distance": 0
+  }
  },
  {
   "id": "demo-28",
-  "nickname": "운동하는바다",
+  "nickname": "운동하는봄비",
   "gender": "F",
-  "age": 27,
+  "age": 32,
   "seek": "M",
-  "ageMin": 23,
-  "ageMax": 30,
+  "ageMin": 28,
+  "ageMax": 36,
   "hobbies": [
-   "맛집",
-   "요리",
-   "운동"
+   "독서",
+   "반려동물",
+   "요리"
   ],
   "face": [
    0.0015,
@@ -1078,31 +1389,40 @@ export const DEMO_CANDIDATES = [
    0.0712
   ],
   "pref": [
+   0.2,
+   0.0,
+   0.3,
    0.0,
    0.0,
    0.0,
+   0.5,
    0.0,
    0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.375,
-   0.625
+   0.0
   ],
-  "faceType": "squirrel"
+  "faceType": "squirrel",
+  "mbti": "ENTJ",
+  "prefMbti": [],
+  "bio": "요즘 에세이 읽는 재미에 빠졌어요. 연락 자주 하는 편이에요 :)",
+  "region": "충북",
+  "importance": {
+   "face": 6,
+   "mbti": 1,
+   "interest": 1,
+   "distance": 3
+  }
  },
  {
   "id": "demo-29",
-  "nickname": "여행가는파도",
+  "nickname": "주말캠핑바다",
   "gender": "M",
-  "age": 23,
+  "age": 33,
   "seek": "F",
-  "ageMin": 20,
-  "ageMax": 26,
+  "ageMin": 29,
+  "ageMax": 39,
   "hobbies": [
-   "반려동물",
-   "사진",
-   "등산"
+   "요리",
+   "운동"
   ],
   "face": [
    0.303,
@@ -1117,32 +1437,42 @@ export const DEMO_CANDIDATES = [
    0.1625
   ],
   "pref": [
-   0.0,
-   0.0,
-   1.0,
+   0.3,
    0.0,
    0.0,
    0.0,
    0.0,
    0.0,
    0.0,
+   0.2,
+   0.5,
    0.0
   ],
-  "faceType": "dog"
+  "faceType": "dog",
+  "mbti": "INFP",
+  "prefMbti": [],
+  "bio": "집밥 해 먹는 걸 좋아해요. 전시나 팝업 구경 다니는 거 좋아해요. 웃음 코드 맞는 사람 좋아요.",
+  "region": "충남",
+  "importance": {
+   "face": 3,
+   "mbti": 1,
+   "interest": 3,
+   "distance": 1
+  }
  },
  {
   "id": "demo-30",
-  "nickname": "야경보는달",
+  "nickname": "커피좋아새벽",
   "gender": "F",
-  "age": 24,
+  "age": 26,
   "seek": "M",
-  "ageMin": 21,
-  "ageMax": 27,
+  "ageMin": 23,
+  "ageMax": 30,
   "hobbies": [
-   "독서",
    "사진",
-   "운동",
-   "여행"
+   "등산",
+   "반려동물",
+   "독서"
   ],
   "face": [
    0.0,
@@ -1158,31 +1488,39 @@ export const DEMO_CANDIDATES = [
   ],
   "pref": [
    0.2,
-   0.3,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
-   0.0,
    0.5,
    0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.3,
    0.0
   ],
-  "faceType": "horse"
+  "faceType": "horse",
+  "mbti": "ESTJ",
+  "prefMbti": [],
+  "bio": "필름 카메라로 일상 찍는 걸 좋아해요. 웃음 코드 맞는 사람 좋아요.",
+  "region": "전북",
+  "importance": {
+   "face": 3,
+   "mbti": 1,
+   "interest": 1,
+   "distance": 0
+  }
  },
  {
   "id": "demo-31",
-  "nickname": "운동하는숲",
+  "nickname": "운동하는별",
   "gender": "M",
-  "age": 30,
+  "age": 21,
   "seek": "F",
-  "ageMin": 25,
-  "ageMax": 36,
+  "ageMin": 19,
+  "ageMax": 27,
   "hobbies": [
    "사진",
-   "독서",
-   "등산",
-   "카페"
+   "독서"
   ],
   "face": [
    0.0124,
@@ -1201,27 +1539,40 @@ export const DEMO_CANDIDATES = [
    0.0,
    0.0,
    0.0,
+   1.0,
    0.0,
-   0.625,
    0.0,
    0.0,
-   0.375,
+   0.0,
    0.0
   ],
-  "faceType": "deer"
+  "faceType": "deer",
+  "mbti": "ENTP",
+  "prefMbti": [
+   "ENTP"
+  ],
+  "bio": "필름 카메라로 일상 찍는 걸 좋아해요. 저녁엔 와인 한잔 좋아해요. 같이 맛있는 거 먹으러 가요!",
+  "region": "전남",
+  "importance": {
+   "face": 3,
+   "mbti": 1,
+   "interest": 3,
+   "distance": 0
+  }
  },
  {
   "id": "demo-32",
-  "nickname": "여행가는바다",
+  "nickname": "운동하는햇살",
   "gender": "F",
-  "age": 34,
+  "age": 30,
   "seek": "M",
-  "ageMin": 28,
-  "ageMax": 37,
+  "ageMin": 26,
+  "ageMax": 35,
   "hobbies": [
+   "카페",
+   "영화",
    "독서",
-   "음악",
-   "여행"
+   "사진"
   ],
   "face": [
    0.0295,
@@ -1239,27 +1590,37 @@ export const DEMO_CANDIDATES = [
    0.0,
    0.0,
    0.0,
-   0.2,
-   0.3,
    0.0,
    0.0,
    0.0,
-   0.5,
-   0.0
+   0.0,
+   0.0,
+   0.375,
+   0.625
   ],
-  "faceType": "bear"
+  "faceType": "bear",
+  "mbti": "ENTJ",
+  "prefMbti": [],
+  "bio": "주말엔 동네 카페 탐방해요. 저녁엔 와인 한잔 좋아해요. 솔직하고 다정한 사람이 좋아요.",
+  "region": "경북",
+  "importance": {
+   "face": 3,
+   "mbti": 0,
+   "interest": 1,
+   "distance": 0
+  }
  },
  {
   "id": "demo-33",
-  "nickname": "책읽는구름",
+  "nickname": "노래하는구름",
   "gender": "M",
-  "age": 24,
+  "age": 27,
   "seek": "F",
-  "ageMin": 20,
-  "ageMax": 29,
+  "ageMin": 23,
+  "ageMax": 33,
   "hobbies": [
-   "영화",
-   "맛집"
+   "게임",
+   "독서"
   ],
   "face": [
    0.1793,
@@ -1275,30 +1636,39 @@ export const DEMO_CANDIDATES = [
   ],
   "pref": [
    0.0,
-   0.2,
    0.0,
+   0.2,
    0.5,
+   0.0,
    0.0,
    0.0,
    0.3,
    0.0,
-   0.0,
    0.0
   ],
-  "faceType": "dino"
+  "faceType": "dino",
+  "mbti": "ISFJ",
+  "prefMbti": [],
+  "bio": "닌텐도 같이 할 사람 구해요. 전시나 팝업 구경 다니는 거 좋아해요. 웃음 코드 맞는 사람 좋아요.",
+  "region": "경남",
+  "importance": {
+   "face": 6,
+   "mbti": 1,
+   "interest": 6,
+   "distance": 1
+  }
  },
  {
   "id": "demo-34",
-  "nickname": "여행가는바다",
+  "nickname": "주말캠핑달",
   "gender": "F",
-  "age": 27,
+  "age": 31,
   "seek": "M",
-  "ageMin": 23,
-  "ageMax": 31,
+  "ageMin": 27,
+  "ageMax": 37,
   "hobbies": [
-   "게임",
-   "사진",
-   "등산",
+   "여행",
+   "맛집",
    "음악"
   ],
   "face": [
@@ -1315,9 +1685,9 @@ export const DEMO_CANDIDATES = [
   ],
   "pref": [
    0.0,
-   0.375,
    0.0,
-   0.625,
+   0.0,
+   1.0,
    0.0,
    0.0,
    0.0,
@@ -1325,21 +1695,33 @@ export const DEMO_CANDIDATES = [
    0.0,
    0.0
   ],
-  "faceType": "cat"
+  "faceType": "cat",
+  "mbti": "ESFJ",
+  "prefMbti": [
+   "INTJ",
+   "ISFJ"
+  ],
+  "bio": "한 달에 한 번은 여행 가려고 해요. 전시나 팝업 구경 다니는 거 좋아해요. 솔직하고 다정한 사람이 좋아요.",
+  "region": "제주",
+  "importance": {
+   "face": 1,
+   "mbti": 1,
+   "interest": 3,
+   "distance": 1
+  }
  },
  {
   "id": "demo-35",
-  "nickname": "커피좋아노을",
+  "nickname": "주말캠핑봄비",
   "gender": "M",
-  "age": 26,
+  "age": 27,
   "seek": "F",
-  "ageMin": 23,
-  "ageMax": 31,
+  "ageMin": 21,
+  "ageMax": 32,
   "hobbies": [
-   "독서",
-   "등산",
-   "운동",
-   "게임"
+   "맛집",
+   "반려동물",
+   "카페"
   ],
   "face": [
    0.002,
@@ -1355,29 +1737,42 @@ export const DEMO_CANDIDATES = [
   ],
   "pref": [
    0.0,
+   1.0,
    0.0,
    0.0,
-   0.625,
    0.0,
-   0.375,
+   0.0,
    0.0,
    0.0,
    0.0,
    0.0
   ],
-  "faceType": "squirrel"
+  "faceType": "squirrel",
+  "mbti": "INTP",
+  "prefMbti": [
+   "ENTJ",
+   "ESTJ"
+  ],
+  "bio": "웨이팅 있는 맛집도 같이 기다려 줄 사람! 전시나 팝업 구경 다니는 거 좋아해요. 천천히 알아가고 싶어요.",
+  "region": "서울",
+  "importance": {
+   "face": 6,
+   "mbti": 1,
+   "interest": 3,
+   "distance": 0
+  }
  },
  {
   "id": "demo-36",
-  "nickname": "커피좋아구름",
+  "nickname": "산책하는노을",
   "gender": "F",
-  "age": 29,
+  "age": 26,
   "seek": "M",
-  "ageMin": 25,
+  "ageMin": 20,
   "ageMax": 32,
   "hobbies": [
-   "영화",
-   "등산"
+   "등산",
+   "음악"
   ],
   "face": [
    0.0035,
@@ -1395,27 +1790,39 @@ export const DEMO_CANDIDATES = [
    0.0,
    0.0,
    0.0,
+   0.625,
    0.0,
    0.375,
    0.0,
    0.0,
    0.0,
-   0.625,
    0.0
   ],
-  "faceType": "rabbit"
+  "faceType": "rabbit",
+  "mbti": "INTJ",
+  "prefMbti": [],
+  "bio": "주말 아침 등산 다녀요. 같이 맛있는 거 먹으러 가요!",
+  "region": "경기",
+  "importance": {
+   "face": 3,
+   "mbti": 0,
+   "interest": 1,
+   "distance": 3
+  }
  },
  {
   "id": "demo-37",
-  "nickname": "주말캠핑봄비",
+  "nickname": "야경보는구름",
   "gender": "M",
-  "age": 25,
+  "age": 29,
   "seek": "F",
-  "ageMin": 20,
-  "ageMax": 31,
+  "ageMin": 26,
+  "ageMax": 34,
   "hobbies": [
+   "영화",
    "사진",
-   "등산"
+   "여행",
+   "요리"
   ],
   "face": [
    0.0175,
@@ -1430,31 +1837,40 @@ export const DEMO_CANDIDATES = [
    0.0006
   ],
   "pref": [
-   0.0,
-   0.0,
-   1.0,
+   0.5,
    0.0,
    0.0,
    0.0,
    0.0,
+   0.2,
+   0.3,
    0.0,
    0.0,
    0.0
   ],
-  "faceType": "deer"
+  "faceType": "deer",
+  "mbti": "ENFJ",
+  "prefMbti": [],
+  "bio": "넷플 보면서 쉬는 게 최고의 힐링. 천천히 알아가고 싶어요.",
+  "region": "인천",
+  "importance": {
+   "face": 6,
+   "mbti": 1,
+   "interest": 6,
+   "distance": 1
+  }
  },
  {
   "id": "demo-38",
-  "nickname": "산책하는바다",
+  "nickname": "책읽는봄비",
   "gender": "F",
   "age": 25,
   "seek": "M",
-  "ageMin": 19,
-  "ageMax": 28,
+  "ageMin": 21,
+  "ageMax": 31,
   "hobbies": [
-   "운동",
-   "반려동물",
-   "여행"
+   "게임",
+   "반려동물"
   ],
   "face": [
    0.2695,
@@ -1469,30 +1885,44 @@ export const DEMO_CANDIDATES = [
    0.0
   ],
   "pref": [
+   0.625,
    0.0,
-   0.2,
+   0.375,
    0.0,
    0.0,
    0.0,
-   0.3,
    0.0,
-   0.5,
+   0.0,
    0.0,
    0.0
   ],
-  "faceType": "bear"
+  "faceType": "bear",
+  "mbti": "INFJ",
+  "prefMbti": [
+   "ESTJ",
+   "ESFJ"
+  ],
+  "bio": "닌텐도 같이 할 사람 구해요. 쉬는 날엔 집순이 모드예요. 천천히 알아가고 싶어요.",
+  "region": "부산",
+  "importance": {
+   "face": 3,
+   "mbti": 3,
+   "interest": 3,
+   "distance": 0
+  }
  },
  {
   "id": "demo-39",
-  "nickname": "책읽는구름",
+  "nickname": "산책하는구름",
   "gender": "M",
-  "age": 22,
+  "age": 21,
   "seek": "F",
   "ageMin": 19,
-  "ageMax": 25,
+  "ageMax": 24,
   "hobbies": [
-   "사진",
+   "맛집",
    "게임",
+   "여행",
    "영화"
   ],
   "face": [
@@ -1509,29 +1939,39 @@ export const DEMO_CANDIDATES = [
   ],
   "pref": [
    0.0,
-   0.625,
-   0.0,
-   0.375,
+   0.3,
    0.0,
    0.0,
+   0.2,
+   0.5,
    0.0,
    0.0,
    0.0,
    0.0
   ],
-  "faceType": "bear"
+  "faceType": "bear",
+  "mbti": "INTP",
+  "prefMbti": [],
+  "bio": "웨이팅 있는 맛집도 같이 기다려 줄 사람! 전시나 팝업 구경 다니는 거 좋아해요. 연락 자주 하는 편이에요 :)",
+  "region": "대구",
+  "importance": {
+   "face": 1,
+   "mbti": 1,
+   "interest": 3,
+   "distance": 1
+  }
  },
  {
   "id": "demo-40",
-  "nickname": "주말캠핑달",
+  "nickname": "노래하는새벽",
   "gender": "F",
-  "age": 22,
+  "age": 34,
   "seek": "M",
-  "ageMin": 19,
-  "ageMax": 26,
+  "ageMin": 28,
+  "ageMax": 39,
   "hobbies": [
-   "영화",
-   "반려동물"
+   "독서",
+   "운동"
   ],
   "face": [
    0.0004,
@@ -1546,6 +1986,7 @@ export const DEMO_CANDIDATES = [
    0.0927
   ],
   "pref": [
+   0.0,
    0.3,
    0.0,
    0.5,
@@ -1554,9 +1995,18 @@ export const DEMO_CANDIDATES = [
    0.0,
    0.0,
    0.0,
-   0.0,
    0.0
   ],
-  "faceType": "squirrel"
+  "faceType": "squirrel",
+  "mbti": "ENFJ",
+  "prefMbti": [],
+  "bio": "요즘 에세이 읽는 재미에 빠졌어요. 저녁엔 와인 한잔 좋아해요. 편하게 대화부터 해요!",
+  "region": "광주",
+  "importance": {
+   "face": 1,
+   "mbti": 1,
+   "interest": 3,
+   "distance": 0
+  }
  }
 ];

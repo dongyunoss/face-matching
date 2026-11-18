@@ -4,3 +4,4 @@ results/
 __pycache__/
 .DS_Store
 web/js/config.local.js
+node_modules/

@@ -13,8 +13,20 @@ create table if not exists public.profiles (
   face_vec    float8[] not null check (array_length(face_vec, 1) = 10),
   pref_vec    float8[] not null check (array_length(pref_vec, 1) = 10),
   face_type   text not null,
+  mbti        text check (mbti ~ '^[EI][SN][TF][JP]$'),
+  pref_mbti   text[] not null default '{}',
+  bio         text not null default '' check (char_length(bio) <= 300),
+  region      text,
+  importance  jsonb,       -- 항목별 중요도 {"face":3,"mbti":1,"interest":3,"distance":1}
   updated_at  timestamptz not null default now()
 );
+
+-- 이미 테이블을 만든 경우: 새 컬럼(MBTI·자기소개·지역)만 추가
+alter table public.profiles add column if not exists mbti text check (mbti ~ '^[EI][SN][TF][JP]$');
+alter table public.profiles add column if not exists pref_mbti text[] not null default '{}';
+alter table public.profiles add column if not exists bio text not null default '' check (char_length(bio) <= 300);
+alter table public.profiles add column if not exists region text;
+alter table public.profiles add column if not exists importance jsonb;
 
 alter table public.profiles enable row level security;
 
@@ -35,3 +47,29 @@ create policy "update own" on public.profiles
 drop policy if exists "delete own" on public.profiles;
 create policy "delete own" on public.profiles
   for delete to authenticated using ((select auth.uid()) = id);
+
+-- ───────── 좋아요 · 매칭 ─────────
+-- 한 줄 = from_id 가 to_id 에게 좋아요. 양방향 두 줄이 모두 있으면 매칭.
+create table if not exists public.likes (
+  from_id    uuid not null references public.profiles(id) on delete cascade,
+  to_id      uuid not null references public.profiles(id) on delete cascade,
+  created_at timestamptz not null default now(),
+  primary key (from_id, to_id),
+  check (from_id <> to_id)
+);
+
+alter table public.likes enable row level security;
+
+-- 내가 보냈거나 받은 좋아요만 볼 수 있음 (다른 사람끼리의 좋아요는 안 보임)
+drop policy if exists "read own likes" on public.likes;
+create policy "read own likes" on public.likes
+  for select to authenticated using ((select auth.uid()) in (from_id, to_id));
+
+-- 좋아요는 내 이름으로만 보낼 수 있음
+drop policy if exists "send like" on public.likes;
+create policy "send like" on public.likes
+  for insert to authenticated with check ((select auth.uid()) = from_id);
+
+drop policy if exists "cancel like" on public.likes;
+create policy "cancel like" on public.likes
+  for delete to authenticated using ((select auth.uid()) = from_id);
