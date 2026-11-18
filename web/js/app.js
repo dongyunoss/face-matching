@@ -685,6 +685,20 @@ $("auth-form").addEventListener("submit", async e => {
   }
 });
 
+// ───────── 안드로이드 앱(Capacitor): 기기의 뒤로 가기 버튼 ─────────
+// 웹 브라우저에서는 Capacitor 가 없으므로 아무 일도 하지 않는다.
+const CapApp = globalThis.Capacitor?.Plugins?.App;
+CapApp?.addListener("backButton", () => {
+  const dlg = document.querySelector("dialog[open]");
+  if (dlg) { dlg.close(); return; }                                   // 열린 창 닫기
+  if (["s-photo", "s-basic", "s-pref", "s-bio"].includes(current)) {  // 입력 단계: 이전 단계로
+    document.querySelector(`#${current} [data-back]`).click();
+    return;
+  }
+  if (current === "s-app" && $("tab-discover").hidden) { switchTab("tab-discover"); return; }   // 다른 탭: 추천 탭으로
+  CapApp.minimizeApp();                                               // 그 외: 앱을 내려놓기 (종료하지 않음)
+});
+
 // ───────── 초기화 ─────────
 if (PREVIEW_MODE) {                        // 체험판: 카메라 없이 사진 올리기만
   $("btn-camera").hidden = true;

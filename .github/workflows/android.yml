@@ -1,0 +1,37 @@
+# web/ 폴더를 감싼 안드로이드 디버그 APK를 빌드한다.
+# 결과물: Actions 실행 화면 아래쪽 Artifacts 의 "animal-match-debug-apk"
+name: Android APK
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - run: npm ci
+      - name: 웹 코드를 안드로이드 프로젝트로 복사
+        run: npx cap sync android
+      - name: 디버그 APK 빌드
+        working-directory: android
+        run: ./gradlew assembleDebug --no-daemon
+      - uses: actions/upload-artifact@v4
+        with:
+          name: animal-match-debug-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error

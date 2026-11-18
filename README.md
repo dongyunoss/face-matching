@@ -29,9 +29,12 @@ face-matching/
 │  └─ make_demo_candidates.py# 데모 후보 생성
 ├─ notebooks/colab_pipeline.ipynb   # 위 스크립트를 순서대로 실행하는 Colab 노트북
 ├─ labeler/index.html        # 라벨링 도구 (설치 없이 브라우저로 열기)
-├─ web/                      # 배포할 웹사이트 (빌드 과정 없음)
+├─ web/                      # 배포할 웹사이트 (빌드 과정 없음). 안드로이드 앱도 이 폴더를 그대로 씀
 │  ├─ index.html, css/, js/
 │  └─ model/                 # 여기에 face_type.onnx, meta.json을 넣음
+├─ android/                  # 안드로이드 앱 프로젝트 (Capacitor가 web/을 감쌈)
+├─ assets/                   # 앱 아이콘·스플래시 원본 이미지
+├─ package.json, capacitor.config.json   # 앱 빌드 설정 (웹만 쓸 때는 필요 없음)
 └─ supabase/schema.sql       # 2단계 DB 테이블 + 보안 정책
 ```
 
@@ -219,6 +222,28 @@ face-matching/
 ```
 - 프로필(확률 벡터·이상형·MBTI·자기소개·중요도)과 좋아요/넘기기 기록은 이어하기용으로 브라우저 localStorage에만 저장해요. **사진은 저장하지 않아요.**
 - 키보드 ←/→로도 넘기기/좋아요를 할 수 있어요.
+
+## 안드로이드 앱
+
+웹과 앱은 **같은 `web/` 코드**를 써요. 앱은 [Capacitor](https://capacitorjs.com)가 `web/` 폴더를 안드로이드 앱 안에 넣어서 보여 주는 방식이라, 웹을 고치면 앱도 똑같이 바뀌어요. 웹 배포(Render)는 예전 그대로예요.
+
+**APK 받기 (가장 쉬움)**: GitHub 저장소 → **Actions** → *Android APK* → 최신 실행 → 아래쪽 **Artifacts**의 `animal-match-debug-apk`를 내려받아 압축을 풀고, `app-debug.apk`를 휴대폰에 설치해요. main에 push하거나 PR을 올릴 때마다 자동으로 빌드돼요.
+
+**내 PC에서 빌드하기** (Node.js 22 이상, Android Studio 필요)
+```bash
+npm install
+npm run android        # web/ 을 앱에 복사하고 Android Studio를 엶 → ▶ Run
+```
+- `web/`을 고친 뒤에는 `npm run sync`로 앱에 다시 복사해요. (`android/app/src/main/assets/public`은 복사본이라 git에 올라가지 않아요.)
+- 명령줄로 APK만 만들려면 `npm run apk` → `android/app/build/outputs/apk/debug/app-debug.apk`
+
+**앱에서 달라지는 점**
+- 카메라: 처음 켤 때 안드로이드 카메라 권한을 물어봐요.
+- 기기의 뒤로 가기 버튼: 열린 창 닫기 → 이전 입력 단계 → 추천 탭으로 → 앱 내려놓기 순서로 동작해요.
+- 화면이 상태바·내비게이션바에 가리지 않게 위아래 여백이 자동으로 들어가요.
+- 얼굴 검출기(MediaPipe)와 실행 라이브러리는 웹과 똑같이 인터넷에서 받아 와요. 그래서 **앱도 인터넷 연결이 필요해요.** `web/model/`에 넣은 분류 모델은 앱 안에 함께 들어가요.
+- 아이콘을 바꾸려면 `assets/make-icons.js`를 고쳐 실행한 뒤 `npx @capacitor/assets generate --android`를 실행해요.
+- 아이폰 앱은 아직 없어요. 필요하면 Mac에서 `npm i @capacitor/ios && npx cap add ios`로 같은 방식으로 추가할 수 있어요.
 
 ## 추천·매칭 시스템
 
